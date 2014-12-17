@@ -8,8 +8,18 @@ typedef std::vector<token>::iterator itt;
 
 class parser{
 	public:
-		// Constructors
+		/*
+		*defualt Constructor (only allocate empty 
+		*textContainer and empty vector<enum>)
+		*/
 		parser();
+		/*
+		*Constructor (only allocate textContainer 
+		*and empty vector<enum>)
+		*
+		*Argument: regex expression
+		*add's it to textContainer
+		*/
 		parser(std::string ex);
 		// Destructors
 		~parser();
@@ -22,7 +32,7 @@ class parser{
 		const token getToken(int& i);
 		// Print Token type (only for testing).
 		void printTokens();
-		//parse a character.
+		//parse the expresstion.
 		bool parse();
 
 	private:
