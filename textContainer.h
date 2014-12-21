@@ -1,5 +1,5 @@
-#ifndef _textContainer_H_
-#define _textContainer_H_
+#ifndef _TEXTCONTAINER_H_
+#define _TEXTCONTAINER_H_
 
 #include <string>
 #include <fstream>
@@ -8,7 +8,7 @@
 #include <iterator>
 #include <cstdlib>
 
-typedef std::vector<char>::iterator itv;
+typedef std::vector<char>::iterator itcp;
 typedef std::string::iterator its;
 
 class textContainer{
@@ -31,7 +31,7 @@ class textContainer{
 		// adds specific char to container.
 		void pushBackChar(char& toAdd);
 		// splitt and add a string, to contain.
-		void addString(std::string& toCon);
+		void addString(std::string toCon);
 		// opensfile and contain the text.
 		void addFile(std::string fileName);
 		// remove and return the first element.
@@ -46,6 +46,6 @@ class textContainer{
 		Data member
 		*/
 		// pointer to vector with chars.
-		std::vector<char> *inText;
+		std::vector<char> inText;
 };
 #endif /*_textContainer_H_*/

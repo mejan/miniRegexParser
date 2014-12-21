@@ -1,39 +1,34 @@
 #include "parser.h"
 
-parser::parser(){
-	inParse = new textContainer;
-	tokenList = new std::vector<token>;
-}
+parser::parser():inParse(),tokenList(){}
 
-parser::parser(std::string ex){
-	inParse = new textContainer;
-	tokenList = new std::vector<token>;
+parser::parser(std::string ex):inParse(),tokenList(){
 	// Add string to container.
-	inParse->addString(ex);
+	inParse.addString(ex);
 }
 
 parser::~parser(){
-	delete inParse;
-	delete tokenList;
+	for(ittp it = tokenList.begin(); it != tokenList.end(); it++){
+		delete (*it);
+	}
 }
 
 void parser::addExpresstion(std::string ex){
-	// Add string to container.
-	inParse->addString(ex);
+	inParse.addString(ex);
 }
 
-const std::vector<token> parser::getTokenList(){
-	return (*tokenList);
+const std::vector<token*> parser::getTokenList(){
+	return tokenList;
 }
 
-const token parser::getToken(int& i){
-	return tokenList->at(i);
+const token parser::getToken(int i){
+	return (*tokenList[i]);
 }
 
 void parser::printTokens(){
-	if(tokenList->size() > 0){
-		for(itt it = tokenList->begin(); it != tokenList->end(); it++){
-			switch( (*it) ){
+	if(tokenList.size() > 0){
+		for(ittp it = tokenList.begin(); it != tokenList.end(); it++){
+			switch( (*(*it)) ){
 				case IDENT:
 					std::cout << "id" << std::endl;
 					break;
@@ -60,6 +55,43 @@ void parser::printTokens(){
 	}
 }
 
+bool parser::parse(){
+	for(size_t i = 0; i < inParse.getSize(); i++){
+
+		if(isalpha(inParse.getChar(i)) || isdigit(inParse.getChar(i))){
+			addToken(IDENT);
+
+
+			for(size_t j = i+1; j < inParse.getSize(); j++){
+				if( !(isalpha(inParse.getChar(j)) || isdigit(inParse.getChar(j))) ){
+					break;
+				}
+				else{
+					addToken(IDENT);
+				}
+			}
+
+		} else{
+			token tmp = lookup(inParse.getChar(i));
+			if(tmp == SYN_ER){
+				return 0;
+			}
+
+			addToken(tmp);
+		}
+	}
+	addToken(END);
+	return 1;
+}
+
+char parser::getExpressionChar(int i){
+	return inParse.getChar(i);
+}
+
+size_t parser::getSize(){
+	return tokenList.size();
+}
+
 token parser::lookup(char toLookUp){
 	switch (toLookUp){
 		case '(':
@@ -75,27 +107,8 @@ token parser::lookup(char toLookUp){
 			return SYN_ER;
 	}
 }
-bool parser::parse(){
-	for(size_t i = 0; i < inParse->getSize(); i++){
 
-		if(isalpha(inParse->getChar(i)) || isdigit(inParse->getChar(i))){
-			tokenList->push_back(IDENT);
-
-			for(size_t j = i+1; j < inParse->getSize(); j++){
-				if( !(isalpha(inParse->getChar(j)) || isdigit(inParse->getChar(j))) ){
-					break;
-				}
-				else{
-					tokenList->push_back(IDENT);
-				}
-			}
-
-		} else if(lookup(inParse->getChar(i)) == SYN_ER){
-			std::cout << std::endl;
-			return 0;
-		} else{
-			tokenList->push_back(lookup(inParse->getChar(i)));
-		}
-	}
-	return 1;
+void parser::addToken(token toAdd){
+	tokenList.push_back(new token);
+	(*tokenList[tokenList.size()-1]) = toAdd;
 }

@@ -1,40 +1,38 @@
 #include "textContainer.h"
 
-textContainer::textContainer(){
-	inText = new std::vector<char>;
-}
+textContainer::textContainer():inText(){}
 
-textContainer::textContainer(std::string fileName){
-	inText = new std::vector<char>;
+textContainer::textContainer(std::string fileName):inText(){
 	addFile(fileName);
 }
 
-textContainer::~textContainer(){
-	delete inText;
-}
+textContainer::~textContainer(){}
 
 void textContainer::printContent(){
-	for(itv it = inText->begin(); it != inText->end(); it++){
+	for(itcp it = inText.begin(); it != inText.end(); it++){
 		std::cout << (*it) << ", ";
 	}
 }
 
 void textContainer::pushBackChar(char& toAdd){
-	inText->push_back(toAdd);
+	inText.push_back(toAdd);
 }
 
-void textContainer::addString(std::string& toCon){
+void textContainer::addString(std::string toCon){
 	for(its it=toCon.begin(); it != toCon.end(); it++){
-		if( !isspace((*it)) )
+		if( !isspace((*it)) ){
 			pushBackChar((*it));
+		}
 	}
 }
 
 void textContainer::addFile(std::string fileName){
 	std::ifstream in(fileName.c_str());
 
-	if(!in.is_open())
+	if(!in.is_open()){
 		std::cout << "Couldn't open the file: " << fileName << std::endl;
+		exit(0);
+	}
 
 	std::string tmp;
 
@@ -46,15 +44,15 @@ void textContainer::addFile(std::string fileName){
 }
 
 char textContainer::popFront(){
-	char tmp = inText->at(0);
-	inText->erase(inText->begin());
+	char tmp = inText[0];
+	inText.erase(inText.begin());
 	return tmp;
 }
 
 char textContainer::getChar(int i){
-	return inText->at(i);
+	return inText[i];
 }
 
 size_t textContainer::getSize(){
-	return inText->size();
+	return inText.size();
 }
