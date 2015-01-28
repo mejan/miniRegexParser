@@ -1,52 +1,29 @@
 #include "regex.h"
 
-regex::regex():toRegex(),result(){}
+regex::regex():findMatchIn(""){}
 
-regex::regex(parser token):toRegex(),result(){
-	toRegex = token;
+regex::regex(std::string fileName):findMatchIn(""){
+	std::ifstream in(fileName.c_str());
 
-	std::cout << toRegex.getSize() << std::endl;
-	for(int i = 0; i < toRegex.getSize(); i++){
-		std::cout << getRegexStrings(i) << " " << i << std::endl;
+	if(!in.is_open()){
+		std::cerr << "Couldn't open the file: " << fileName << std::endl;
+		exit(0);
 	}
+	std::string tmp;
+	while(getline(in, tmp)){
+		if(in.eof())
+			break;
+
+		findMatchIn += tmp;
+		findMatchIn += "\n";
+	}
+	for(its it = findMatchIn.begin(); it != findMatchIn.end(); it++)
+		std::cout << *it;
 }
 
 regex::~regex(){
-	for(itsp it = result.begin(); it != result.end(); it++){
-		delete (*it);
-	}
 }
 
-void regex::addParser(parser token){
-	toRegex = token;
-}
+void regex::getMatch(std::string toFind){
 
-std::string regex::continueOperation(int start, char toFind){
-	int i = start;
-	std::string tmp;
-	while(toRegex.getExpressionChar(i) == toFind){
-		tmp += toFind;
-		i++;
-	}
-	return tmp;
-}
-
-std::string regex::getRegexStrings(int current){
-	std::string resturnValue;
-	if(toRegex.getToken(current) == LEFT_PAREN){
-		std::cout << "( in regex" << std::endl;
-	} else if(toRegex.getToken(current) == RIGHT_PAREN){
-		std::cout << ") in regex" << std::endl;
-	} else if(toRegex.getToken(current) == OR_OP){
-		std::cout << "OR  in regex" << std::endl;
-	} else if(toRegex.getToken(current) == CONTINUE_OP){
-		std::cout << "con operation in regex" << std::endl;
-	} else if(toRegex.getToken(current) == IDENT){
-		std::cout << "IDent in regex" << std::endl;
-	} else if(toRegex.getToken(current) == END){
-		std::cout << "END in regex" << std::endl;
-	} else{
-		std::cout << "if this happen something is serigously wrong" << std::endl;
-	}
-	return "1";
 }

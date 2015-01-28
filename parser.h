@@ -2,6 +2,7 @@
 #define _PARSER_H_
 
 #include "textContainer.h"
+#include <memory>
 
 enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
 typedef std::vector<token*>::iterator ittp;

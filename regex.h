@@ -12,31 +12,23 @@ class regex{
 		*/
 		// default constructor allocate a parser class to pointer
 		regex();
-		// constrttor arg: parserclass, alloocate parserclass
-		// and copy argument pointer.
-		regex(parser token);
-		~regex();
+		//constructor that adds matchin text from the file in argument fileName.
+		regex(std::string fileName);
 
-		/*
-		public member functions
-		*/
-		// add parser if not exsists.
-		void addParser(parser token);
+		~regex();
 	private:
 		/*
-		private functions
+		*Private member functions
 		*/
-		// equel functions
-		std::string continueOperation(int start, char toFind);
-		// Regex statements
-		std::string getRegexStrings(int current);
+		void getMatch(std::string toFind);
+
 		/*
-		Data member
+		*Private data members
 		*/
-		// parser klass point
-		parser toRegex;
-		// store result in.
-		std::vector<std::string*> result;
+		// String to contain text to find match in.
+		std::string findMatchIn;
+		// Contains current index where in findMatchIn we are.
+
 };
 
 #endif /*_REGEX_H_*/

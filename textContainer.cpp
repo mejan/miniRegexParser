@@ -30,7 +30,7 @@ void textContainer::addFile(std::string fileName){
 	std::ifstream in(fileName.c_str());
 
 	if(!in.is_open()){
-		std::cout << "Couldn't open the file: " << fileName << std::endl;
+		std::cerr << "Couldn't open the file: " << fileName << std::endl;
 		exit(0);
 	}
 
