@@ -5,6 +5,8 @@ parser::parser():inParse(),tokenList(){}
 parser::parser(std::string ex):inParse(),tokenList(){
 	// Add string to container.
 	inParse.addString(ex);
+	if(!parse())
+		exit(0);
 }
 
 parser::~parser(){
@@ -15,6 +17,8 @@ parser::~parser(){
 
 void parser::addExpresstion(std::string ex){
 	inParse.addString(ex);
+	if(!parse())
+		exit(0);
 }
 
 const std::vector<token*> parser::getTokenList(){
@@ -81,6 +85,7 @@ bool parser::parse(){
 		}
 	}
 	addToken(END);
+	inParse.makeEmpty();
 	return 1;
 }
 

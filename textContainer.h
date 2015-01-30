@@ -40,6 +40,8 @@ class textContainer{
 		char getChar(int i);
 		// returns the size
 		size_t getSize();
+		// empty the container
+		void makeEmpty();
 
 	private:
 		/*

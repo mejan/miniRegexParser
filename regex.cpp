@@ -1,8 +1,19 @@
 #include "regex.h"
 
-regex::regex():findMatchIn(""){}
+regex::regex():findMatchIn(""),tokens(){}
 
-regex::regex(std::string fileName):findMatchIn(""){
+regex::regex(std::string ex):findMatchIn(""),tokens(){
+	tokens.addExpresstion(ex);
+}
+
+regex::regex(std::string fileName, std::string ex):findMatchIn(""),tokens(){
+	addFile(fileName);
+	tokens.addExpresstion(ex);
+}
+
+regex::~regex(){}
+
+void regex::addFile(std::string fileName){
 	std::ifstream in(fileName.c_str());
 
 	if(!in.is_open()){
@@ -17,13 +28,16 @@ regex::regex(std::string fileName):findMatchIn(""){
 		findMatchIn += tmp;
 		findMatchIn += "\n";
 	}
-	for(its it = findMatchIn.begin(); it != findMatchIn.end(); it++)
-		std::cout << *it;
 }
 
-regex::~regex(){
+void regex::addNewText(std::string matchingText){
+	findMatchIn = matchingText;
 }
 
-void regex::getMatch(std::string toFind){
+void regex::addNewExpresion(std::string ex){
+
+}
+
+void regex::concat(std::string toFind){
 
 }

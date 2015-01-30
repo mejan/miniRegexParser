@@ -56,3 +56,7 @@ char textContainer::getChar(int i){
 size_t textContainer::getSize(){
 	return inText.size();
 }
+
+void textContainer::makeEmpty(){
+	inText.clear();
+}
