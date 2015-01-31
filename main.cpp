@@ -1,4 +1,4 @@
-#include "regex.h"
+#include "parser.h"
 
 int main(){
 	std::string file, commande;
@@ -10,7 +10,7 @@ int main(){
 	std::cout << "Skriv in ditt regex uttryck" << std::endl;
 	std::cin >> commande;
 
-	regex test(commande);
+	parser test(commande);
 
 	return 0;
 }

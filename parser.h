@@ -1,60 +1,62 @@
 #ifndef _PARSER_H_
 #define _PARSER_H_
 
-#include "textContainer.h"
-#include <memory>
-
-enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
-typedef std::vector<token*>::iterator ittp;
+#include "regex.h"
 
 class parser{
 	public:
 		/*
-		*defualt Constructor (only allocate empty 
-		*textContainer and empty vector<enum>)
+		*Constructors and destructor
 		*/
+
+		// default constructor allocate a parser class to pointer
 		parser();
-		/*
-		*Constructor (only allocate textContainer 
-		*and empty vector<enum>)
-		*
-		*Argument: regex expression
-		*add's it to textContainer
-		*/
+		// constructor with expresion
 		parser(std::string ex);
-		// Destructors
+		// constructor with file tofindpattern in and add expresion
+		parser(std::string fileName, std::string ex);
+		//destruktor.
 		~parser();
-		
-		//Takes new expression.
-		void addExpresstion(std::string ex);
-		//Gets all the tokens
-		const std::vector<token*> getTokenList();
-		//Get specific token
-		const token getToken(int i);
-		// Print Token type (only for testing).
-		void printTokens();
-		//parse the expresstion.
-		bool parse();
-		//Get expression char one at a time
-		char getExpressionChar(int i);
-		// Get the finish parsed ex size.
-		size_t getSize();
+
+		/*
+		*Member function
+		*/
+
+		// add a file to find match in
+		void addFile(std::string fileName);
+		// add new text to find matchin (text not file)
+		void addNewText(std::string matchingText);
+		// add new expression text
+		void addNewExpretion(std::string ex);
 
 	private:
 		/*
-		private functions
+		*Private member functions
 		*/
-		//Look up if char is UNKNOWN.
-		token lookup(char toLookUp);
-		// add a token push back
-		void addToken(token toAdd);
+		// parse the exprestion.
+		void exprestion();
+		// Make concat.
+		bool concat();
+		// Or operation
+		bool orOP();
+		// parentes operation
+		bool parentes();
+		// repeat operation.
+		bool repeat();
+
 
 		/*
-		Data members
+		*Private data members
 		*/
-		//Member for container of expression
-		textContainer inParse;
-		//Pointer will be used to store tokens
-		std::vector<token*> tokenList;
+		// String to contain text to find match in.
+		std::string searchIn;
+		// to keep tokens out of expresion
+		regex tokens;
+		// Contains current index where in findMatchIn we are.
+
+		// store result in
+		std::string result;
+
 };
+
 #endif /*_PARSER_H_*/

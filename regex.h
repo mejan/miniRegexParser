@@ -1,50 +1,60 @@
 #ifndef _REGEX_H_
 #define _REGEX_H_
 
-#include "parser.h"
+#include "textContainer.h"
+#include <memory>
+
+enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
+typedef std::vector<token*>::iterator ittp;
 
 class regex{
 	public:
 		/*
-		*Constructors and destructor
+		*defualt Constructor (only allocate empty 
+		*textContainer and empty vector<enum>)
 		*/
-
-		// default constructor allocate a parser class to pointer
 		regex();
-		// constructor with expresion
-		regex(std::string ex);
-		// constructor with file tofindpattern in and add expresion
-		regex(std::string fileName, std::string ex);
-		//destruktor.
-		~regex();
-
 		/*
-		*Member function
+		*Constructor (only allocate textContainer 
+		*and empty vector<enum>)
+		*
+		*Argument: regex expression
+		*add's it to textContainer
 		*/
-
-		// add a file to find match in
-		void addFile(std::string fileName);
-		// add new text to find matchin (text not file)
-		void addNewText(std::string matchingText);
-		// add new expression text
-		void addNewExpresion(std::string ex);
+		regex(std::string ex);
+		// Destructors
+		~regex();
+		
+		//Takes new expression.
+		void addExpresstion(std::string ex);
+		//Gets all the tokens
+		const std::vector<token*> getTokenList();
+		//Get specific token
+		const token getToken(int i);
+		// Print Token type (only for testing).
+		void printTokens();
+		//parse the expresstion.
+		bool parse();
+		//Get expression char one at a time
+		char getIdChar(int i);
+		// Get the finish parsed ex size.
+		size_t getSize();
 
 	private:
 		/*
-		*Private member functions
+		private functions
 		*/
-		// Make concat.
-		void concat(std::string toFind);
+		//Look up if char is UNKNOWN.
+		token lookup(char toLookUp);
+		// add a token push back
+		void addToken(token toAdd);
 
 		/*
-		*Private data members
+		Data members
 		*/
-		// String to contain text to find match in.
-		std::string findMatchIn;
-		// to keep tokens out of expresion
-		parser tokens;
-		// Contains current index where in findMatchIn we are.
-
+		//Member for container of expression
+		textContainer inParse;
+		//Pointer will be used to store tokens
+		std::vector<token*> tokenList;
 };
-
 #endif /*_REGEX_H_*/
