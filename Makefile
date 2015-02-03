@@ -1,5 +1,5 @@
-cpps = main.cpp textContainer.cpp parser.cpp regex.cpp
-headers = textContainer.h parser.h regex.h
+cpps = main.cpp parser.cpp regex.cpp
+headers = parser.h regex.h
 compile = g++ -std=c++11 -O3
 out = regexParser
 

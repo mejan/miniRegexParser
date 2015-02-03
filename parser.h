@@ -2,6 +2,7 @@
 #define _PARSER_H_
 
 #include "regex.h"
+#include <stack>
 
 class parser{
 	public:
@@ -22,7 +23,7 @@ class parser{
 		*Member function
 		*/
 
-		// add a file to find match in
+		// add a new file to find match in
 		void addFile(std::string fileName);
 		// add new text to find matchin (text not file)
 		void addNewText(std::string matchingText);
@@ -36,13 +37,15 @@ class parser{
 		// parse the exprestion.
 		void exprestion();
 		// Make concat.
-		bool concat();
+		bool concat(size_t i);
 		// Or operation
 		bool orOP();
 		// parentes operation
 		bool parentes();
 		// repeat operation.
 		bool repeat();
+		// find match to a string
+		void findMatch(std::string toFind);
 
 
 		/*
@@ -52,10 +55,12 @@ class parser{
 		std::string searchIn;
 		// to keep tokens out of expresion
 		regex tokens;
-		// Contains current index where in findMatchIn we are.
-
+		// Contains current iterator for start the search
+		its startSearch;
 		// store result in
 		std::string result;
+		// keep the found iterators in
+		std::stack<std::string> stackFound;
 
 };
 

@@ -16,6 +16,8 @@ parser::~parser(){}
 void parser::addFile(std::string fileName){
 	std::ifstream in(fileName.c_str());
 
+	searchIn = "";
+
 	if(!in.is_open()){
 		std::cerr << "Couldn't open the file: " << fileName << std::endl;
 		exit(0);
@@ -42,8 +44,10 @@ void parser::exprestion(){
 
 }
 
-bool parser::concat(){
-	
+bool parser::concat(size_t i){
+	if(tokens.getToken(i) == IDENT){
+
+	} 
 }
 
 bool parser::parentes(){
@@ -51,5 +55,9 @@ bool parser::parentes(){
 }
 
 bool parser::repeat(){
+	
+}
+
+void findMatch(std::string toFind){
 	
 }

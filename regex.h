@@ -1,11 +1,15 @@
 #ifndef _REGEX_H_
 #define _REGEX_H_
 
-#include "textContainer.h"
+// #include "textContainer.h"
 #include <memory>
+#include <vector>
+#include <iostream>
+#include <fstream>
 
 enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
 typedef std::vector<token*>::iterator ittp;
+typedef std::string::iterator its;
 
 class regex{
 	public:
@@ -30,13 +34,13 @@ class regex{
 		//Gets all the tokens
 		const std::vector<token*> getTokenList();
 		//Get specific token
-		const token getToken(int i);
+		const token getToken(size_t i);
 		// Print Token type (only for testing).
 		void printTokens();
 		//parse the expresstion.
 		bool parse();
 		//Get expression char one at a time
-		char getIdChar(int i);
+		char getIdChar(size_t i);
 		// Get the finish parsed ex size.
 		size_t getSize();
 
@@ -53,7 +57,7 @@ class regex{
 		Data members
 		*/
 		//Member for container of expression
-		textContainer inParse;
+		std::string inParse;
 		//Pointer will be used to store tokens
 		std::vector<token*> tokenList;
 };

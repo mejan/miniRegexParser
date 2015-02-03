@@ -2,9 +2,9 @@
 
 regex::regex():inParse(),tokenList(){}
 
-regex::regex(std::string ex):inParse(),tokenList(){
+regex::regex(std::string ex):inParse(ex),tokenList(){
 	// Add string to container.
-	inParse.addString(ex);
+	// inParse = ex;
 	if(!parse())
 		exit(0);
 }
@@ -16,7 +16,7 @@ regex::~regex(){
 }
 
 void regex::addExpresstion(std::string ex){
-	inParse.addString(ex);
+	inParse += ex;
 	if(!parse())
 		exit(0);
 }
@@ -25,7 +25,7 @@ const std::vector<token*> regex::getTokenList(){
 	return tokenList;
 }
 
-const token regex::getToken(int i){
+const token regex::getToken(size_t i){
 	return (*tokenList[i]);
 }
 
@@ -60,14 +60,14 @@ void regex::printTokens(){
 }
 
 bool regex::parse(){
-	for(size_t i = 0; i < inParse.getSize(); i++){
+	for(its it = inParse.begin(); it != inParse.end(); it++){
 
-		if(isalpha(inParse.getChar(i)) || isdigit(inParse.getChar(i))){
+		if(isalpha(*it) || isdigit(*it)){
 			addToken(IDENT);
 
 
-			for(size_t j = i+1; j < inParse.getSize(); j++){
-				if( !(isalpha(inParse.getChar(j)) || isdigit(inParse.getChar(j))) ){
+			for(its it2 = it+1; it2 != inParse.end(); it2++){
+				if( !(isalpha(*it2) || isdigit(*it2)) ){
 					break;
 				}
 				else{
@@ -76,7 +76,7 @@ bool regex::parse(){
 			}
 
 		} else{
-			token tmp = lookup(inParse.getChar(i));
+			token tmp = lookup(*it);
 			if(tmp == SYN_ER){
 				return 0;
 			}
@@ -85,12 +85,12 @@ bool regex::parse(){
 		}
 	}
 	addToken(END);
-	inParse.makeEmpty();
+	inParse = "";
 	return 1;
 }
 
-char regex::getIdChar(int i){
-	return inParse.getChar(i);
+char regex::getIdChar(size_t i){
+	return inParse[i];
 }
 
 size_t regex::getSize(){
