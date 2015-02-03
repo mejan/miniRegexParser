@@ -1,10 +1,12 @@
 #include "parser.h"
 
-parser::parser():searchIn(""),tokens(){}
+parser::parser():searchIn(""),tokens(){
+	startSearch = searchIn.begin();
+}
 
 parser::parser(std::string ex):searchIn(""),tokens(){
 	tokens.addExpresstion(ex);
-	tokens.printTokens();
+	startSearch = searchIn.begin();
 }
 
 parser::parser(std::string fileName, std::string ex):searchIn(""),tokens(){
@@ -31,6 +33,7 @@ void parser::addFile(std::string fileName){
 		searchIn += tmp;
 		searchIn += "\n";
 	}
+	startSearch = searchIn.begin();
 }
 
 void parser::addNewText(std::string matchingText){
@@ -60,5 +63,5 @@ bool parser::repeat(){
 }
 
 void findMatch(std::string toFind){
-
+	
 }
