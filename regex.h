@@ -38,7 +38,7 @@ class regex{
 		// Print Token type (only for testing).
 		void printTokens();
 		//parse the expresstion.
-		bool parse();
+		bool makeRegex();
 		//Get expression char one at a time
 		char getIdChar(size_t i);
 		// Get the finish parsed ex size.
@@ -57,7 +57,7 @@ class regex{
 		Data members
 		*/
 		//Member for container of expression
-		std::string inParse;
+		std::string inRegex;
 		//Pointer will be used to store tokens
 		std::vector<token*> tokenList;
 };

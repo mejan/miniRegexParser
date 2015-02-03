@@ -1,11 +1,11 @@
 #include "regex.h"
 
-regex::regex():inParse(),tokenList(){}
+regex::regex():inRegex(),tokenList(){}
 
-regex::regex(std::string ex):inParse(ex),tokenList(){
+regex::regex(std::string ex):inRegex(ex),tokenList(){
 	// Add string to container.
-	// inParse = ex;
-	if(!parse())
+	// inRegex = ex;
+	if(!makeRegex())
 		exit(0);
 }
 
@@ -16,8 +16,8 @@ regex::~regex(){
 }
 
 void regex::addExpresstion(std::string ex){
-	inParse += ex;
-	if(!parse())
+	inRegex += ex;
+	if(!makeRegex())
 		exit(0);
 }
 
@@ -59,14 +59,14 @@ void regex::printTokens(){
 	}
 }
 
-bool regex::parse(){
-	for(its it = inParse.begin(); it != inParse.end(); it++){
+bool regex::makeRegex(){
+	for(its it = inRegex.begin(); it != inRegex.end(); it++){
 
 		if(isalpha(*it) || isdigit(*it)){
 			addToken(IDENT);
 
 
-			for(its it2 = it+1; it2 != inParse.end(); it2++){
+			for(its it2 = it+1; it2 != inRegex.end(); it2++){
 				if( !(isalpha(*it2) || isdigit(*it2)) ){
 					break;
 				}
@@ -85,12 +85,12 @@ bool regex::parse(){
 		}
 	}
 	addToken(END);
-	inParse = "";
+	inRegex = "";
 	return 1;
 }
 
 char regex::getIdChar(size_t i){
-	return inParse[i];
+	return inRegex[i];
 }
 
 size_t regex::getSize(){

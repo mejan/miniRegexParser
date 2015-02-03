@@ -4,6 +4,7 @@ parser::parser():searchIn(""),tokens(){}
 
 parser::parser(std::string ex):searchIn(""),tokens(){
 	tokens.addExpresstion(ex);
+	tokens.printTokens();
 }
 
 parser::parser(std::string fileName, std::string ex):searchIn(""),tokens(){
@@ -59,5 +60,5 @@ bool parser::repeat(){
 }
 
 void findMatch(std::string toFind){
-	
+
 }
