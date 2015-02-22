@@ -1,4 +1,4 @@
-Expr => Concat | Paren | Repeat | Or
+Expr => Concat | Paren | Repeat
 
 Or => Expr + Expr
 

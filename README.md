@@ -8,7 +8,7 @@ more deitials will come at a later time.
 
 BNF
 ===
-Expr => Concat | Paren | Repeat
+Expr => Concat | Paren | Repeat | Or
 
 Or => Expr + Expr
 

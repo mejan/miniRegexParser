@@ -47,9 +47,6 @@ void parser::exprestion(){
 }
 
 bool parser::concat(size_t i){
-	if(tokens.getToken(i) == IDENT){
-
-	} 
 }
 
 bool parser::parentes(){
@@ -71,7 +68,7 @@ bool parser::findMatch(std::string toFind){
 			return 1;
 		} else if(tmp == std::string::npos){
 			std::cout << "Wanted text can't be found in the text: " << toFind << std::endl
-			<< "Text program is lookin in is: " << searchIn << std::endl;
+			<< "The text program is lookin in is: " << searchIn << std::endl;
 			exit(0);
 		}
 	} else{
