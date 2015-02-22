@@ -5,8 +5,8 @@ out = regexParser
 
 compRun: $(cpps) $(headers)
 	$(compile) $(cpps) -o $(out)
-	#./$(out)
-	cat test.txt | ./$(out)
+	./$(out)
+	#cat test.txt | ./$(out)
 
 run: $(out)
 	#./$(out)

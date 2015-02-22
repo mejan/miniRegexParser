@@ -3,6 +3,9 @@
 
 #include "regex.h"
 #include <stack>
+#include <algorithm>
+
+
 
 class parser{
 	public:
@@ -29,6 +32,8 @@ class parser{
 		void addNewText(std::string matchingText);
 		// add new expression text
 		void addNewExpretion(std::string ex);
+		// Used for testing the match funktion.
+		// bool findMatch(std::string toFind);
 
 	private:
 		/*
@@ -45,7 +50,7 @@ class parser{
 		// repeat operation.
 		bool repeat();
 		// find match to a string
-		void findMatch(std::string toFind);
+		bool findMatch(std::string toFind);
 
 
 		/*
@@ -55,12 +60,12 @@ class parser{
 		std::string searchIn;
 		// to keep tokens out of expresion
 		regex tokens;
-		// Contains current iterator for start the search
-		its startSearch;
 		// store result in
 		std::string result;
 		// keep the found iterators in
 		std::stack<std::string> stackFound;
+		// keep track of current possition in searchIn.
+		size_t posInSearch;
 
 };
 
