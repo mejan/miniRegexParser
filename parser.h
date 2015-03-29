@@ -2,8 +2,9 @@
 #define _PARSER_H_
 
 #include "regex.h"
+
 #include <stack>
-#include <algorithm>
+#include <fstream>
 
 
 
@@ -40,9 +41,9 @@ class parser{
 		*Private member functions
 		*/
 		// parse the exprestion.
-		void exprestion();
+		void expression();
 		// Make concat.
-		bool concat(size_t i);
+		bool concat();
 		// Or operation
 		bool orOP();
 		// parentes operation
@@ -66,6 +67,8 @@ class parser{
 		std::stack<std::string> stackFound;
 		// keep track of current possition in searchIn.
 		size_t posInSearch;
+		// keep track of the token being read.
+		size_t posInToken;
 
 };
 

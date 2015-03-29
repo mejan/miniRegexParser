@@ -1,100 +1,93 @@
 #include "regex.h"
 
-regex::regex():inRegex(),tokenList(){}
+regex::regex():tokenList(),textRegex(){}
 
-regex::regex(std::string ex):inRegex(ex),tokenList(){
-	// Add string to container.
-	// inRegex = ex;
-	if(!makeRegex())
+regex::regex(std::string ex):tokenList(),textRegex(){
+	if(!makeToken(ex))
 		exit(0);
 }
 
 regex::~regex(){
-	for(ittp it = tokenList.begin(); it != tokenList.end(); it++){
-		delete (*it);
-	}
+	// clear the tokenList.
+	emptyToken();
 }
 
-void regex::addExpresstion(std::string ex){
-	inRegex += ex;
-	if(!makeRegex())
+void regex::addNewExprestion(std::string ex){
+	// clear the tokenList
+	emptyToken();
+	if(!makeToken(ex))
 		exit(0);
 }
 
-const std::vector<token*> regex::getTokenList(){
-	return tokenList;
+char regex::getTokenCode(size_t i){
+	if(i < textRegex.size())
+		return textRegex[i];
+
+	std::cout << "Out of bounce!(expression)" << std::endl;
+	return 'E';
 }
 
 const token regex::getToken(size_t i){
-	return (*tokenList[i]);
-}
+	if(i<tokenList.size())
+		return (*tokenList[i]);
 
-void regex::printTokens(){
-	if(tokenList.size() > 0){
-		for(ittp it = tokenList.begin(); it != tokenList.end(); it++){
-			switch( (*(*it)) ){
-				case IDENT:
-					std::cout << "id" << std::endl;
-					break;
-				case END:
-					std::cout << "end" << std::endl;
-					break;
-				case CONTINUE_OP:
-					std::cout << "con op" << std::endl;
-					break;
-				case OR_OP:
-					std::cout << "or op" << std::endl;
-					break;
-				case LEFT_PAREN:
-					std::cout << "left par" << std::endl;
-					break;
-				case RIGHT_PAREN:
-					std::cout << "right par" << std::endl;
-					break;
-				case SYN_ER:
-					std::cout << "syn error" << std::endl;
-					break;
-			}
-		}
-	}
-}
-
-bool regex::makeRegex(){
-	for(its it = inRegex.begin(); it != inRegex.end(); it++){
-
-		if(isalpha(*it) || isdigit(*it)){
-			addToken(IDENT);
-
-
-			for(its it2 = it+1; it2 != inRegex.end(); it2++){
-				if( !(isalpha(*it2) || isdigit(*it2)) ){
-					break;
-				}
-				else{
-					addToken(IDENT);
-				}
-			}
-
-		} else{
-			token tmp = lookup(*it);
-			if(tmp == SYN_ER){
-				return 0;
-			}
-
-			addToken(tmp);
-		}
-	}
-	addToken(END);
-	inRegex = "";
-	return 1;
-}
-
-char regex::getIdChar(size_t i){
-	return inRegex[i];
+	std::cerr << "Out of bounce!(Token list)" << std::endl;
+	return SYN_ER;
 }
 
 size_t regex::getSize(){
 	return tokenList.size();
+}
+
+void regex::printTokensAndText(){
+	size_t i = 0;
+	for(tokenIt it = tokenList.begin(); it != tokenList.end(); it++,i++){
+		switch( (*(*it)) ){
+			case IDENT:
+				std::cout << "id: " << getTokenCode(i) <<std::endl;
+				break;
+			case END:
+				std::cout << "end: This is where we die!" << std::endl;
+				break;
+			case CONTINUE_OP:
+				std::cout << "con op: " << getTokenCode(i) << std::endl;
+				break;
+			case OR_OP:
+				std::cout << "or op: " << getTokenCode(i) << std::endl;
+				break;
+			case LEFT_PAREN:
+				std::cout << "left par: " << getTokenCode(i) << std::endl;
+				break;
+			case RIGHT_PAREN:
+				std::cout << "right par: " << getTokenCode(i) << std::endl;
+				break;
+			case SYN_ER:
+				std::cout << "syn error: " << getTokenCode(i) << std::endl;
+				break;
+		}
+	}
+}
+
+bool regex::makeToken(std::string ex){
+	for(size_t i = 0; i < ex.size(); i++){
+		if(isalnum(ex[i])){
+			textRegex.push_back(ex[i]);
+			addToken(IDENT);
+		} else{
+			token tmp = lookup(ex[i]);
+			if(tmp == SYN_ER){
+				return 0;	
+			}
+			textRegex.push_back(ex[i]);
+			addToken(tmp);
+		}
+	}
+	if(!ex.size() == 0){
+		addToken(END);
+	} else{
+		return 0;
+	}
+	return 1;
 }
 
 token regex::lookup(char toLookUp){
@@ -108,12 +101,23 @@ token regex::lookup(char toLookUp){
 		case '*':
 			return CONTINUE_OP;
 		default:
-			std::cout << "Syntax error! see: " << toLookUp << std::endl;
+			std::cerr << "Syntax error! see: " << toLookUp << std::endl;
 			return SYN_ER;
 	}
 }
 
 void regex::addToken(token toAdd){
+	// allocate new token for vector.
 	tokenList.push_back(new token);
+	// set value to the new allocated token.
 	(*tokenList[tokenList.size()-1]) = toAdd;
+}
+
+void regex::emptyToken(){
+	// deletes allocated memory.
+	for(tokenIt it = tokenList.begin(); it != tokenList.end(); it++){
+		delete (*it);
+	}
+	// erase pointers in the vector.
+	tokenList.erase(tokenList.begin(), tokenList.end());
 }

@@ -1,15 +1,14 @@
 #ifndef _REGEX_H_
 #define _REGEX_H_
 
-// #include "textContainer.h"
-#include <memory>
+
 #include <vector>
 #include <iostream>
-#include <fstream>
+#include <string>
+#include <cctype>
 
 enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
-typedef std::vector<token*>::iterator ittp;
-typedef std::string::iterator its;
+typedef std::vector<token*>::iterator tokenIt;
 
 class regex{
 	public:
@@ -26,39 +25,49 @@ class regex{
 		*add's it to textContainer
 		*/
 		regex(std::string ex);
-		// Destructors
+		/*
+		*Destructor deletes all allocated memory.
+		*/
 		~regex();
-		
-		//Takes new expression.
-		void addExpresstion(std::string ex);
-		//Gets all the tokens
-		const std::vector<token*> getTokenList();
-		//Get specific token
+		/*
+		*Deletes the old token list and add new expression
+		*and create new token list for it.
+		*/
+		void addNewExprestion(std::string ex);
+		/*
+		* returns the expression for a specifik position
+		* position is the same as a token position.
+		*/
+		char getTokenCode(size_t i);
+		/*
+		*Returns a token in a serten index in tokenlist
+		*attribute i is the index that will be returned.
+		*/
 		const token getToken(size_t i);
-		// Print Token type (only for testing).
-		void printTokens();
-		//parse the expresstion.
-		bool makeRegex();
-		//Get expression char one at a time
-		char getIdChar(size_t i);
-		// Get the finish parsed ex size.
+		/*
+		*returns the size of the token list.
+		*/
 		size_t getSize();
-
+		/*
+		*prints the current tokens and there expression.
+		*/
+		void printTokensAndText();
 	private:
-		/*
-		private functions
-		*/
-		//Look up if char is UNKNOWN.
+		// make tokens out of the a expression
+		bool makeToken(std::string ex);
+		// look up the token type.
 		token lookup(char toLookUp);
-		// add a token push back
+		// add token to the tokenList.
 		void addToken(token toAdd);
-
+		// delete allocated token memory and erase all pointers in the vector.
+		void emptyToken();
 		/*
-		Data members
+		*Members for data storeage.
 		*/
-		//Member for container of expression
-		std::string inRegex;
-		//Pointer will be used to store tokens
+		// store expression to specifik token
+		std::vector<char> textRegex;
+		// store the tokens.
 		std::vector<token*> tokenList;
 };
+
 #endif /*_REGEX_H_*/

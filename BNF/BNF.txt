@@ -1,0 +1,9 @@
+Expr => Concat | Paren | Repeat | Or
+
+Or => Concat + Concat
+
+Parentes => (Expr)
+
+Concat => Id | Id Concat 
+
+Repeat => Id* | Parentes*
