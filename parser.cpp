@@ -46,38 +46,24 @@ void parser::addNewExpretion(std::string ex){
 }
 
 void parser::expression(){
+	// Spagetti code 1 on 1 in this switch case.
 	switch(tokens.getToken(tokenListPos)){
 		case IDENT:
-			if(tokens.getToken(tokenListPos+1) == CONTINUE_OP){
-				repeat();
-				tokenListPos++;
-			} else if(tokens.getToken(tokenListPos+1) == OR_OP){
-				orOP();
-				tokenListPos++; // Very likely that I've to change later.
-			} else{
-				concat();	
-			}
+			concat();
 			tokenListPos++;
 			expression();
 			break;
 		case LEFT_PAREN:
+			tokenListPos++;
+			parentes();
+			break;
+		case RIGHT_PAREN:
 			parentes();
 			tokenListPos++;
 			expression();
 			break;
-		case RIGHT_PAREN:
-			if(tokens.getToken(tokenListPos+1) == CONTINUE_OP){
-				parentes();
-				repeat();
-				tokenListPos++;
-			} else{
-				parentes();
-			}
-			tokenListPos++;
-			expression();
-			break;
 		case END:
-			std::cerr << "oklart vad som ska göras just nu." << std::endl;
+			std::cerr << "Klar med uttrycket." << std::endl;
 			break;
 		default:
 			std::cerr << "Något är oklart har hänt måste kolla upp!" << std::endl;
@@ -86,9 +72,13 @@ void parser::expression(){
 }
 
 bool parser::concat(){
+	tokenListPos++;
 	std::cout << "Concat" << std::endl;
 	return true;
 
+	if(tokens.getToken(tokenListPos+1) == CONTINUE_OP){
+		repeat();
+	}
 // Suggestion
 /*	lex();
 	if ( token == token::ID){
@@ -106,10 +96,13 @@ bool parser::orOP(){
 }
 
 bool parser::parentes(){
-	if(tokens.getToken(tokenListPos) == LEFT_PAREN)
+	if(tokens.getToken(tokenListPos) == LEFT_PAREN){
+		tokenListPos++;
 		std::cout << "left parantes" << std::endl;
-	else if(tokens.getToken(tokenListPos) == RIGHT_PAREN)
+	}
+	else if(tokens.getToken(tokenListPos) == RIGHT_PAREN){
 		std::cout << "Right parantes" << std::endl;
+	}
 	return 0;
 
 
@@ -126,6 +119,7 @@ bool parser::parentes(){
 }
 
 bool parser::repeat(){
+	tokenListPos++;
 	std::cout << "repeat" << std::endl;
 	return 1;
 }
@@ -153,4 +147,6 @@ bool parser::findMatch(char toMatch){
 		}
 	}
 	return 0;*/
+
+	return 0;
 }
