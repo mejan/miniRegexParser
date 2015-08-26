@@ -46,24 +46,6 @@ void parser::addNewExpretion(std::string ex){
 }
 
 void parser::expression(){
-	/*if(tokenListPos == 0 || tokens.getToken(tokenListPos) == IDENT){
-		switch(tokens.getToken(tokenListPos+1)){
-			case IDENT:
-				break;
-			case CONTINUE_OP:
-				break;
-			case OR_OP:
-				break;
-			case LEFT_PAREN:
-				break;
-			case RIGHT_PAREN:
-				break;
-			case END:
-				break;
-			default:
-				break;
-		}
-	}*/
 	switch(tokens.getToken(tokenListPos)){
 		case IDENT:
 			if(tokens.getToken(tokenListPos+1) == CONTINUE_OP){
@@ -106,6 +88,8 @@ void parser::expression(){
 bool parser::concat(){
 	std::cout << "Concat" << std::endl;
 	return true;
+
+// Suggestion
 /*	lex();
 	if ( token == token::ID){
 		if(*search == id){
@@ -127,6 +111,10 @@ bool parser::parentes(){
 	else if(tokens.getToken(tokenListPos) == RIGHT_PAREN)
 		std::cout << "Right parantes" << std::endl;
 	return 0;
+
+
+
+// Sugestion.
 /*	lex();
 	bool match = expression();
 	lex();
