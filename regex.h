@@ -7,6 +7,7 @@
 #include <string>
 #include <cctype>
 
+
 enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
 typedef std::vector<token*>::iterator tokenIt;
 
@@ -61,6 +62,7 @@ class regex{
 		void addToken(token toAdd);
 		// delete allocated token memory and erase all pointers in the vector.
 		void emptyToken();
+		
 		/*
 		*Members for data storeage.
 		*/

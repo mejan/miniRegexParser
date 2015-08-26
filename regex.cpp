@@ -3,8 +3,10 @@
 regex::regex():tokenList(),textRegex(){}
 
 regex::regex(std::string ex):tokenList(),textRegex(){
-	if(!makeToken(ex))
+	if(!makeToken(ex)){
+		std::cerr << "Syntax error, else expression is missing." << std::endl;
 		exit(0);
+	}
 }
 
 regex::~regex(){
@@ -82,6 +84,8 @@ bool regex::makeToken(std::string ex){
 			addToken(tmp);
 		}
 	}
+
+	// This 'if' is to prevent a token list with only the token end.
 	if(!ex.size() == 0){
 		addToken(END);
 	} else{

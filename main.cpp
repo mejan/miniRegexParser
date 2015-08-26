@@ -7,15 +7,10 @@ int main(){
 	// the regex command.
 	// std::cout << "Skriv in inläsnings filen" << std::endl;
 	// std::cin >> file;
-	/*std::cout << "Skriv in ditt regex uttryck" << std::endl;
+	std::cout << "Skriv in ditt regex uttryck" << std::endl;
 	std::cin >> commande;
 
-	parser test("tmp.txt", commande); */
-	
-	std::cin >> commande;
-
-	regex test(commande);
-	test.printTokensAndText();
+	parser test("tmp.txt", commande); 
 
 	return 0;
 }

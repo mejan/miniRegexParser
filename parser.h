@@ -44,18 +44,23 @@ class parser{
 		void expression();
 		// Make concat.
 		bool concat();
-		// Or operation
+		/*Or operation
+		Left most checking is like C++ is working with the or statment
+		if(text a || text b) if the first on (a) is true don't bother checking the
+		right one.*/
 		bool orOP();
-		// parentes operation
+		/*parentes operation*/
 		bool parentes();
-		// repeat operation.
+		/*repeat operation.
+		Will always be true cuz we allow this to find 0-ininty of a id or expression.
+		*/
 		bool repeat();
 		// find match to a string
-		bool findMatch(std::string toFind);
+		bool findMatch(char toMatch);
 
 
 		/*
-		*Private data members
+		*Data members
 		*/
 		// String to contain text to find match in.
 		std::string searchIn;
@@ -66,9 +71,9 @@ class parser{
 		// keep the found iterators in
 		std::stack<std::string> stackFound;
 		// keep track of current possition in searchIn.
-		size_t posInSearch;
+		size_t searchPos;
 		// keep track of the token being read.
-		size_t posInToken;
+		size_t tokenListPos;
 
 };
 
