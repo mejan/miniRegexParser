@@ -135,10 +135,10 @@ bool parser::repeat(){
 
 bool parser::findMatch(char toMatch){
 
-/*	if(stackFound.size() != 0){
+/*	if(currentMatch.size() != 0){
 		std::string tmpStr = searchIn.substr(searchPos, toFind.size());
 		if(tmpStr == toFind){
-			stackFound.push(tmpStr);
+			currentMatch.push(tmpStr);
 			searchPos += toFind.size();
 			return 1;
 		}
@@ -146,7 +146,7 @@ bool parser::findMatch(char toMatch){
 		size_t tmp = searchIn.find(toFind, searchPos);
 	
 		if(tmp != std::string::npos){
-			stackFound.push(searchIn.substr(tmp, toFind.size()));
+			currentMatch.push(searchIn.substr(tmp, toFind.size()));
 			searchPos = tmp + toFind.size(); //might have to make -1 on.
 			return 1;
 		} else if(tmp == std::string::npos){

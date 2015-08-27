@@ -71,7 +71,7 @@ class parser{
 		std::string result;
 		// keep the found iterators in
 		// std::stack<std::string> stackFound;
-		std::vector<bool> currentMatch; //don't forget to change name in .cpp
+		// std::vector<std::stack<char> > currentMatch; //don't forget to change name in .cpp
 		// keep track of current possition in searchIn.
 		size_t searchPos;
 		// keep track of the token being read.
