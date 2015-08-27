@@ -2,11 +2,11 @@
 
 parser::parser():searchIn(""),tokens(),searchPos(0),tokenListPos(0){}
 
-parser::parser(std::string fileName):searchIn(""),tokens(),searchPos(0),tokenListPos(0){
+parser::parser(std::string fileName):searchIn(""),tokens(),searchPos(0),tokenListPos(0),stackNum(0){
 	addFile(fileName);
 }
 
-parser::parser(std::string fileName, std::string ex):searchIn(""),tokens(ex),searchPos(0),tokenListPos(0){
+parser::parser(std::string fileName, std::string ex):searchIn(""),tokens(ex),searchPos(0),tokenListPos(0),stackNum(0){
 	addFile(fileName);
 	expression();
 	tokens.printTokensAndText();
@@ -42,26 +42,31 @@ void parser::addNewText(std::string matchingText){
 void parser::addNewExpretion(std::string ex){
 	tokens.addNewExprestion(ex);
 	tokenListPos = 0;
-
 }
 
-void parser::expression(){
+void parser::startRegex(){
+	if(stackNum != 0)
+		stackNum = 0;
+
+	expression();
+}
+
+bool parser::expression(){
 	// Spagetti code 1 on 1 in this switch case.
 	switch(tokens.getToken(tokenListPos)){
 		case IDENT:
 			concat();
-			tokenListPos++;
-			expression();
 			break;
+
 		case LEFT_PAREN:
-			tokenListPos++;
 			parentes();
 			break;
+
 		case RIGHT_PAREN:
 			parentes();
-			tokenListPos++;
 			expression();
 			break;
+
 		case END:
 			std::cerr << "Klar med uttrycket." << std::endl;
 			break;
@@ -79,6 +84,7 @@ bool parser::concat(){
 	if(tokens.getToken(tokenListPos+1) == CONTINUE_OP){
 		repeat();
 	}
+
 // Suggestion
 /*	lex();
 	if ( token == token::ID){
@@ -95,17 +101,10 @@ bool parser::orOP(){
 	return true;
 }
 
-bool parser::parentes(){
-	if(tokens.getToken(tokenListPos) == LEFT_PAREN){
-		tokenListPos++;
-		std::cout << "left parantes" << std::endl;
-	}
-	else if(tokens.getToken(tokenListPos) == RIGHT_PAREN){
-		std::cout << "Right parantes" << std::endl;
-	}
-	return 0;
-
-
+bool parser::parentesLeft(){
+	stackNum++;
+	std::cout << "left parantes" << std::endl;
+	bool match = expression();
 
 // Sugestion.
 /*	lex();
@@ -116,6 +115,16 @@ bool parser::parentes(){
 		match += currentMatch;
 	currentMatch;
 	return match;*/
+}
+
+bool parser::parentesRight(){
+	if(!(stackNum => 0)){
+		stackNum--;
+	} else{
+		std::cerr << "Ending parentes without start, please check syntax" << std::endl;
+		exit(0);
+	}
+	std::cout << "right parente" << std::endl;
 }
 
 bool parser::repeat(){

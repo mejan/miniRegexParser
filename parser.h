@@ -33,15 +33,15 @@ class parser{
 		void addNewText(std::string matchingText);
 		// add new expression text
 		void addNewExpretion(std::string ex);
-		// Used for testing the match funktion.
-		// bool findMatch(std::string toFind);
+		// Starts the new text, and expretion regex.
+		void startRegex();
 
 	private:
 		/*
 		*Private member functions
 		*/
 		// parse the exprestion.
-		void expression();
+		bool expression(size_t stackNum);
 		// Make concat.
 		bool concat();
 		/*Or operation
@@ -50,7 +50,8 @@ class parser{
 		right one.*/
 		bool orOP();
 		/*parentes operation*/
-		bool parentes();
+		bool parentesLeft();
+		bool parentesRight();
 		/*repeat operation.
 		Will always be true cuz we allow this to find 0-ininty of a id or expression.
 		*/
@@ -69,11 +70,14 @@ class parser{
 		// store result in
 		std::string result;
 		// keep the found iterators in
-		std::stack<std::string> stackFound;
+		// std::stack<std::string> stackFound;
+		std::vector<bool> currentMatch; //don't forget to change name in .cpp
 		// keep track of current possition in searchIn.
 		size_t searchPos;
 		// keep track of the token being read.
 		size_t tokenListPos;
+		// keeping track of stack in the vector
+		size_t stackNum;
 
 };
 
