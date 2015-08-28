@@ -7,10 +7,9 @@ compRun: $(cpps) $(headers)
 	$(compile) $(cpps) -o $(out)
 	#./$(out)
 	cat test.txt | ./$(out)
-
+	rm $(out)
 run: $(out)
-	#./$(out)
-	cat test.txt | ./$(out)
+	./$(out)
 
 comp: $(cpps) $(headers)
 	$(compile) $(cpps) -o $(out)
