@@ -6,6 +6,18 @@ And as the title says it's a small version of a regex parser.
 
 more deitials will come at a later time.
 
+How to use
+==========
+
+id* is to find minmum id and possible infinty id.
+
+id is either a number or letter that most be fond.
+
+id1+id2  means to find either id1 or id2 (left most).
+
+() is used to search as it's own expresion.
+
+
 BNF
 ===
 Expr => Concat | Paren | Repeat | Or
