@@ -9,6 +9,8 @@
 
 
 enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
+// I use a pointer just for practise,
+// works fine without pointer just find.
 typedef std::vector<token*>::iterator tokenIt;
 
 class regex{
@@ -69,6 +71,8 @@ class regex{
 		// store expression to specifik token
 		std::vector<char> textRegex;
 		// store the tokens.
+		// I use a pointer just for practise,
+		// works fine without pointer just find.
 		std::vector<token*> tokenList;
 };
 

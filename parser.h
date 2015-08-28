@@ -30,5 +30,10 @@ class parser{
 		bool conOperation();
 		// repeat function.
 		bool repOperation();
+
+		/*
+		*Datamembers
+		*/
 };
+
 #endif /*_PARSER_H_*/
