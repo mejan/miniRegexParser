@@ -13,9 +13,9 @@ id* is to find minmum id and possible infinty id.
 
 id is either a number or letter that most be fond.
 
-id1+id2  means to find either id1 or id2 (left most).
+expr1+expr2  means to find either id1 or id2 (left most).
 
-() is used to search as it's own expresion.
+(expr) is used to search as it's own expresion.
 
 
 BNF
@@ -28,7 +28,7 @@ Parentes => (Expr)
 
 Concat => Id | Id Concat | Expr Concat
 
-Repeat => Id* | Parentes*
+Repeat => Id* | Parentes*  -- might change soon.
 
 No tributes accepted
 ====================
