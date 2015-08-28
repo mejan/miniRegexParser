@@ -39,6 +39,10 @@ class parser{
 		textContainer text;
 		// keeps the regex expression in.
 		regex expression;
+		// keeps track of what is found
+		std::vector<string> ans;
+		// Keep index for the ans vector.
+		size_t ansIndex;
 };
 
 #endif /*_PARSER_H_*/

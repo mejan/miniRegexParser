@@ -77,6 +77,15 @@ bool textContainer::isTopEquel(char c){
 	return 0;
 }
 
+bool textContainer::isTopEqPop(char c){
+	if(text.top() == c){
+		text.pop();
+		return 1;
+	}
+	text.pop();
+	return 0;
+}
+
 bool textContainer::isEmpty(){
 	return text.empty();
 }

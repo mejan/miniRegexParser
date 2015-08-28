@@ -1,8 +1,8 @@
 #include "regex.h"
 
-regex::regex():tokenList(),textRegex(){}
+regex::regex():tokenList(),textRegex(),index(0){}
 
-regex::regex(std::string ex):tokenList(),textRegex(){
+regex::regex(std::string ex):tokenList(),textRegex(),index(0){
 	if(!makeToken(ex)){
 		std::cerr << "Syntax error, else expression is missing." << std::endl;
 		exit(0);
@@ -21,17 +21,20 @@ void regex::addNewExprestion(std::string ex){
 		exit(0);
 }
 
-char regex::getTokenCode(size_t i){
-	if(i < textRegex.size())
-		return textRegex[i];
+char regex::getTokenCode(){
+	if(index < textRegex.size()){
+		return textRegex[index];
+	}
 
 	std::cout << "Out of bounce!(expression)" << std::endl;
 	return 'E';
 }
 
-const token regex::getToken(size_t i){
-	if(i<tokenList.size())
-		return (*tokenList[i]);
+const token regex::getToken(){
+	if(index < tokenList.size()){
+		return (*tokenList[index]);
+		index++;
+	}
 
 	std::cerr << "Out of bounce!(Token list)" << std::endl;
 	return SYN_ER;
@@ -46,25 +49,25 @@ void regex::printTokensAndText(){
 	for(tokenIt it = tokenList.begin(); it != tokenList.end(); it++,i++){
 		switch( (*(*it)) ){
 			case IDENT:
-				std::cout << "id: " << getTokenCode(i) <<std::endl;
+				std::cout << "id: " << getTokenCode() <<std::endl;
 				break;
 			case END:
 				std::cout << "end: This is where we die!" << std::endl;
 				break;
 			case CONTINUE_OP:
-				std::cout << "con op: " << getTokenCode(i) << std::endl;
+				std::cout << "con op: " << getTokenCode() << std::endl;
 				break;
 			case OR_OP:
-				std::cout << "or op: " << getTokenCode(i) << std::endl;
+				std::cout << "or op: " << getTokenCode() << std::endl;
 				break;
 			case LEFT_PAREN:
-				std::cout << "left par: " << getTokenCode(i) << std::endl;
+				std::cout << "left par: " << getTokenCode() << std::endl;
 				break;
 			case RIGHT_PAREN:
-				std::cout << "right par: " << getTokenCode(i) << std::endl;
+				std::cout << "right par: " << getTokenCode() << std::endl;
 				break;
 			case SYN_ER:
-				std::cout << "syn error: " << getTokenCode(i) << std::endl;
+				std::cout << "syn error: " << getTokenCode() << std::endl;
 				break;
 		}
 	}

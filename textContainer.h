@@ -63,6 +63,11 @@ class textContainer{
 		*/
 		bool isTopEquel(char c);
 		/*
+		*Check if the top is equal to c
+		*and remove top
+		*/
+		bool isTopEqPop(char c);
+		/*
 		*check if container is empty
 		*/
 		bool isEmpty();

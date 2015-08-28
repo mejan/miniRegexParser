@@ -41,12 +41,12 @@ class regex{
 		* returns the expression for a specifik position
 		* position is the same as a token position.
 		*/
-		char getTokenCode(size_t i);
+		char getTokenCode();
 		/*
 		*Returns a token in a serten index in tokenlist
 		*attribute i is the index that will be returned.
 		*/
-		const token getToken(size_t i);
+		const token getToken();
 		/*
 		*returns the size of the token list.
 		*/
@@ -55,7 +55,11 @@ class regex{
 		*prints the current tokens and there expression.
 		*/
 		void printTokensAndText();
-		
+		/*
+		*Reset index to 0.
+		*/
+		void restart();
+
 	private:
 		// make tokens out of the a expression
 		bool makeToken(std::string ex);
