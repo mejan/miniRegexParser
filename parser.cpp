@@ -1,10 +1,10 @@
 #include "parser.h"
 
-parser::parser(){}
+parser::parser():text(),expression(){}
 
 parser::~parser(){}
 
-void parser::expresion(){
+void parser::expr(){
 
 }
 

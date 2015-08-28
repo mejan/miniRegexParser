@@ -55,6 +55,7 @@ class regex{
 		*prints the current tokens and there expression.
 		*/
 		void printTokensAndText();
+		
 	private:
 		// make tokens out of the a expression
 		bool makeToken(std::string ex);
@@ -74,6 +75,8 @@ class regex{
 		// I use a pointer just for practise,
 		// works fine without pointer just find.
 		std::vector<token*> tokenList;
+		// keep track on token that's been seen.
+		size_t index;
 };
 
 #endif /*_REGEX_H_*/

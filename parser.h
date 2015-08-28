@@ -2,6 +2,7 @@
 #define _PARSER_H_
 
 #include "regex.h"
+#include "textContainer.h"
 
 class parser{
 	public:
@@ -21,7 +22,7 @@ class parser{
 		*Private member functions in parser
 		*/
 		// Expresion bas function for the parsing.
-		void expresion();
+		void expr();
 		// How we work with the or sign +.
 		bool orOperation();
 		// How we work with the ()'s.
@@ -34,6 +35,10 @@ class parser{
 		/*
 		*Datamembers
 		*/
+		// The text that will be looked in.
+		textContainer text;
+		// keeps the regex expression in.
+		regex expression;
 };
 
 #endif /*_PARSER_H_*/

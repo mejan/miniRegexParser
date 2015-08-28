@@ -15,32 +15,56 @@ class textContainer{
 		/*
 		*Constructors and destructor
 		*/
-		// Default constructor
+		/*
+		*Default constructor
+		*inialize the stack.
+		*/
 		textContainer();
-		// Constructor that adds text
+		/*
+		*Constructor that adds text
+		*inialize the stack and fill it with inText as char
+		*/
 		textContainer(std::string inText);
-		// Destructor
+		/*
+		*Destructor
+		*Nothing to destruct.
+		*/
 		~textContainer();
 
 		/*
 		*Member functions
 		*/
-		// Add new text to container.
+		/*
+		*Add new text to container.
+		*From input inText string.
+		*/
 		void addText(std::string inText);
-		// Add text to existing text container.
-		// and it adds it in the end of the old text.
+		/*
+		*Add text to existing text container
+		*and it adds it in the end of the old text.
+		*/
 		void addMoreText(std::string inText);
-		// Add new text from file.
+		/*
+		*Add new text from file.
+		*/
 		void addFileText(std::string file);
-		// add text from file to existing text container.
-		// and it adds it in the end of the old text.
+		/*
+		*Add text from file to existing text container.
+		*And it adds it in the end of the old text.
+		*/
 		void addMoreFileText(std::string file);
-		// Search in text and pop til it find + c.
+		/*
+		*Search in text and pop til it find + c.
+		*/
 		bool isInText(char c);
-		// Check if the top is equle to c.
-		// if it's equel it will pop top.
+		/*
+		*Check if the top is equle to c.
+		*If it's equel it will pop top.
+		*/
 		bool isTopEquel(char c);
-		// check if container is empty
+		/*
+		*check if container is empty
+		*/
 		bool isEmpty();
 	private:
 		/*
