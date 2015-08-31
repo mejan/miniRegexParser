@@ -2,14 +2,16 @@
 
 parser::parser():text(),expression(),ans(),ansIndex(0){}
 
+parser::parser(std::string expr):text(),expression(expr),ans(),ansIndex(0){}
+
 parser::~parser(){}
 
 void parser::expr(){
 	switch(expression.getToken()){
-		case token::IDENT:
+		case token::ID:
 			conOperation();
 			break;
-		case token::CONTINUE_OP:
+		case token::REP:
 			repOperation();
 			break;
 	}

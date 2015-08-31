@@ -11,6 +11,8 @@ class parser{
 		*/
 		// Default constuctor set private datamebers to basicly zero.
 		parser();
+		// Constructor with expression as in variable.
+		parser(std::string expr);
 		// Dedtructor takes care of memory resturn (maybe not (not sure yet)).
 		~parser();
 
@@ -40,7 +42,7 @@ class parser{
 		// keeps the regex expression in.
 		regex expression;
 		// keeps track of what is found
-		std::vector<string> ans;
+		std::vector<std::string> ans;
 		// Keep index for the ans vector.
 		size_t ansIndex;
 };

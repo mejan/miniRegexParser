@@ -91,8 +91,9 @@ bool textContainer::isEmpty(){
 }
 
 void textContainer::fillStack(std::string inText){
-	for(riter rit = inText.rbegin(); rit != inText.rend(); rit++){
-		text.push((*rit));
+	std::reverse(inText.begin(), inText.end());
+	for(iter it = inText.begin(); it != inText.end(); it++){
+		text.push((*it));
 	}
 }
 

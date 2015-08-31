@@ -45,8 +45,7 @@ size_t regex::getSize(){
 }
 
 void regex::printTokensAndText(){
-	size_t i = 0;
-	for(tokenIt it = tokenList.begin(); it != tokenList.end(); it++,i++){
+	for(tokenIt it = tokenList.begin(); it != tokenList.end(); it++){
 		switch( (*(*it)) ){
 			case IDENT:
 				std::cout << "id: " << getTokenCode() <<std::endl;
@@ -71,6 +70,10 @@ void regex::printTokensAndText(){
 				break;
 		}
 	}
+}
+
+void regex::restart(){
+	index=0;
 }
 
 bool regex::makeToken(std::string ex){

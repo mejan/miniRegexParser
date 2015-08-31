@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <iostream>
 
-typedef std::string::reverse_iterator riter;
 typedef std::string::iterator iter;
 
 class textContainer{

@@ -6,11 +6,12 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <stack>
 
 
 enum token { END, IDENT, CONTINUE_OP, OR_OP, LEFT_PAREN, RIGHT_PAREN, SYN_ER };
 // I use a pointer just for practise,
-// works fine without pointer just find.
+// works fine without pointer.
 typedef std::vector<token*>::iterator tokenIt;
 
 class regex{
@@ -77,7 +78,7 @@ class regex{
 		std::vector<char> textRegex;
 		// store the tokens.
 		// I use a pointer just for practise,
-		// works fine without pointer just find.
+		// works fine without pointer.
 		std::vector<token*> tokenList;
 		// keep track on token that's been seen.
 		size_t index;
