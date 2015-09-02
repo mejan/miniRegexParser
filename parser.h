@@ -75,7 +75,7 @@ class parser{
 		size_t ansIndex;
 		// Where to start search.
 		// Iter is a typedef in regex.h
-		iter startPos;
+		size_t startPos;
 };
 
 #endif /*_PARSER_H_*/

@@ -1,8 +1,8 @@
 #include "parser.h"
 
-parser::parser():text(""),expression(),ans(),ansIndex(0),startPos(text.begin()){}
+parser::parser():text(""),expression(),ans(),ansIndex(0),startPos(0){}
 
-parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(text.begin()){
+parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(0){
 	// test code for the regex.
 	std::string tmp ="";
 	std::cout << std::endl << std::endl << "parser Print: " << std::endl;
@@ -61,7 +61,7 @@ void parser::expr(){
 
 void parser::addText(std::string inText){
 	text += inText;
-	startPos = text.begin();
+	startPos = 0;
 }
 
 void parser::addTextFile(std::string filename){
@@ -79,7 +79,6 @@ void parser::addTextFile(std::string filename){
 		addText(tmpStr);
 	}
 	in.close();
-	match(1);
 }
 
 void parser::emptyText(){
@@ -117,11 +116,23 @@ bool parser::match(bool conOrNot){
 				std::string tmpStr2 = text.substr(tmpPos,tmpStr.size());
 				ans.push_back(tmpStr2);
 				// Change start pos for next search.
-				startPos = text.begin()+tmpPos+tmpStr.size();
+				startPos = tmpPos+tmpStr.size();
+				std::cout << "klar" << std::endl;
+
 			}
 
-		} else{ //else it has to be the next char.
-			
+		} else{ //else it has to be the next char + tmpStr size.
+			std::cout << "kommer vi in?" << std::endl;
+			std::string tmpStr2 = text.substr(startPos, tmpStr.size());
+			std::cout << "substr: " << tmpStr2 
+					  << " sökt: "<< tmpStr << std::endl;
+			if(tmpStr2 == tmpStr){
+				ans.push_back(tmpStr);
+				startPos = startPos+tmpStr.size();
+				for(size_t testSkit = startPos; testSkit<text.size(); testSkit++){
+					std::cout << "$: " << text[testSkit] <<std::endl;
+				}
+			}
 		}
 
 	} else{ // has to be repeat.
