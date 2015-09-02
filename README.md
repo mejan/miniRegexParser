@@ -13,7 +13,7 @@ id* is to find minmum id and possible infinty id.
 
 id is either a number or letter that most be fond.
 
-expr1+expr2  means to find either expr1 or expr2 (left most).
+Expr1+Expr2  means to find either Expr1 or Expr2 (left most).
 
 (expr) is used to search as it's own expresion.
 

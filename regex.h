@@ -8,8 +8,10 @@
 
 // The tokens:
 enum token {ID, REP, OR, LPAR, RPAR, SYNER, END};
-// make siter be the name for a string iterator.
-typedef std::string::iterator siter;
+// make iter to be the name for a string iterator.
+typedef std::string::iterator iter;
+// make viter to be the name for a vector string iterator.
+typedef std::vector<std::string>::iterator viter;
 
 class regex{
 	public:
@@ -32,11 +34,15 @@ class regex{
 		/*
 		*Returns next token, and change index for regExp.
 		*/
-		const token getToken();
+		token getToken();
 		/*
 		*Returns next letter from expression
 		*/
-		const char getExp();
+		char getExp();
+		/*
+		*get left and right.
+		*/
+		std::vector<std::string> orSplit();
 	private:
 		// Create tokens from string expression.
 		void makeTokens(std::string ex);
