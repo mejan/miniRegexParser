@@ -10,7 +10,8 @@ int main(){
 	std::cout << "Skriv in ditt regex uttryck" << std::endl;
 	std::cin >> commande;
 
-	parser test(commande); 
+	parser test(commande);
+	test.addTextFile("tmp.txt"); 
 
 	return 0;
 }

@@ -3,6 +3,7 @@
 parser::parser():text(""),expression(),ans(),ansIndex(0),startPos(text.begin()){}
 
 parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(text.begin()){
+	// test code for the regex.
 	std::string tmp ="";
 	std::cout << std::endl << std::endl << "parser Print: " << std::endl;
 	for(int i = 0; i < 14; i++){
@@ -31,7 +32,7 @@ parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),sta
 			std::cout << " And the ID " << expression.getId();
 		}
 		std::cout << std::endl;
-	}
+	} //End of test code.
 }
 
 parser::~parser(){}
@@ -78,6 +79,7 @@ void parser::addTextFile(std::string filename){
 		addText(tmpStr);
 	}
 	in.close();
+	match(1);
 }
 
 void parser::emptyText(){
@@ -100,23 +102,31 @@ bool parser::conOperation(){
 }
 
 bool parser::repOperation(){
-	
 	return 1; // will always return true.
 }
 
 bool parser::match(bool conOrNot){
-	/*std::string tmp = expression.getExp();
-	iter it;
-	if(isalnum(tmp)){
-		if(conOrNot){ //Check if the it's a concat.
-			if(ans.size() == 0){ // if ans.size() is 0, then we need to search the whole text
+	std::string tmpStr = expression.getId();
 
-			} else{ //else it has to be the next char.
+	if(conOrNot){ //Check if the it's a concat.
 
+		if(ans.empty()){ // if ans.size() is 0, then we need to search the whole text
+			size_t tmpPos = text.find(tmpStr);
+
+			if(tmpPos != std::string::npos){
+				std::string tmpStr2 = text.substr(tmpPos,tmpStr.size());
+				ans.push_back(tmpStr2);
+				// Change start pos for next search.
+				startPos = text.begin()+tmpPos+tmpStr.size();
 			}
-		} else{ // has to be repeat.
 
-		}*/
+		} else{ //else it has to be the next char.
+			
+		}
+
+	} else{ // has to be repeat.
+
+	}
 	return 0;
 
 }

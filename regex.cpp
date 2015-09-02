@@ -16,8 +16,6 @@ void regex::setIndex(){
 	index.tIndex=0;
 	index.outVIndex=0;
 	index.inVIndex=-1;
-	/*index.rIndex=0;
-	index.rTIndex=0;*/
 }
 
 token regex::getToken(){
@@ -147,7 +145,7 @@ void regex::makeTokens(std::string ex){
 		for(viter vit = (*it).begin(); vit != (*it).end(); vit++){
 			std::cout << "String: " << (*vit) << std::endl;
 		}
-	}
+	} // End debugging code.
 
 	if(!ex.size() == 0){
 		tokenList.push_back(token::END);
