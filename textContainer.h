@@ -53,17 +53,20 @@ class textContainer{
 		*/
 		void addMoreFileText(std::string file);
 		/*
-		*Search in text and pop til it find + c.
+		*Search in text and pop til it finds c or
+		*the container gets empty.
 		*/
 		bool isInText(char c);
 		/*
 		*Check if the top is equle to c.
 		*If it's equel it will pop top.
+		*In the case of miniRegex project,
+		*it will be used for repition.		
 		*/
 		bool isTopEquel(char c);
 		/*
 		*Check if the top is equal to c
-		*and remove top
+		*and remove top.
 		*/
 		bool isTopEqPop(char c);
 		/*

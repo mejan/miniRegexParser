@@ -33,6 +33,8 @@ class parser{
 		bool conOperation();
 		// repeat function.
 		bool repOperation();
+		// Check for match in textContainer.
+		bool match(char c);
 
 		/*
 		*Datamembers
@@ -42,7 +44,7 @@ class parser{
 		// keeps the regex expression in.
 		regex expression;
 		// keeps track of what is found
-		std::vector<std::string> ans;
+		std::vector<char> ans;
 		// Keep index for the ans vector.
 		size_t ansIndex;
 };

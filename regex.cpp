@@ -41,7 +41,7 @@ token regex::getToken(){
 char regex::getExp(){
 	if(regExp.size() <= index.rIndex){
 		std::cerr << "Index out of bouce, will return last known." << std::endl;
-		return regExp[0][regExp[0].size()-1];
+		return regExp[0];
 	} else if(regExp[index.rIndex].size() <= index.rTIndex){
 		std::cerr << "Index out of bounce (second), will return last." << std::endl;
 		return regExp[index.rIndex][regExp[index.rIndex].size()-1];
@@ -57,12 +57,9 @@ std::vector<std::string> regex::orSplit(){
 	std::string tmpStr="";
 	
 	for(iter sit = regExp[index.rIndex].begin(); sit != regExp[index.rIndex].end(); sit++){
-
-		if((*sit) == '+'){
+		if(!isalnum(*sit)){
 			forReturn.push_back(tmpStr);
 			tmpStr = "";
-		} else if((*sit) == '(' || (*sit) == ')'){
-			continue;
 		} else{
 			tmpStr += (*sit);
 		}
@@ -123,7 +120,7 @@ void regex::makeTokens(std::string ex){
 
 	if(!ex.size() == 0){
 		tokenList.push_back(token::END);
-		
+
 		if(index.rIndex > 0){
 			std::cout << "rIndex: " << index.rIndex << std::endl;
 			std::cerr << "Syntax Error. You are missing one or more ')'" 
