@@ -2,7 +2,37 @@
 
 parser::parser():text(""),expression(),ans(),ansIndex(0),startPos(text.begin()){}
 
-parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(text.begin()){}
+parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(text.begin()){
+	std::string tmp ="";
+	std::cout << std::endl << std::endl << "parser Print: " << std::endl;
+	for(int i = 0; i < 14; i++){
+		switch(expression.getToken()){
+			case token::ID:
+				tmp = "ID";
+				break;
+			case token::REP:
+				tmp = "REP";
+				break;
+			case token::OR:
+				tmp = "OR";
+				break;
+			case token::LPAR:
+				tmp ="LPAR";
+				break;
+			case token::RPAR:
+				tmp ="RPAR";
+				break;
+			case token::END:
+				tmp = "END";
+				break;
+		}
+		std::cout << "The Token: " << tmp;
+		if(tmp == "ID"){
+			std::cout << " And the ID " << expression.getId();
+		}
+		std::cout << std::endl;
+	}
+}
 
 parser::~parser(){}
 
@@ -70,8 +100,8 @@ bool parser::conOperation(){
 }
 
 bool parser::repOperation(){
-	// check the con from before and see if it continues.
-	return 1;
+	
+	return 1; // will always return true.
 }
 
 bool parser::match(bool conOrNot){

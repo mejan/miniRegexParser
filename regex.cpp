@@ -43,15 +43,6 @@ token regex::getToken(){
 }
 
 std::string regex::getId(){
-	/*if(regExp.size() <= index.rIndex){
-		std::cerr << "Index out of bouce, will return last known." << std::endl;
-		return regExp[0][regExp.size()-1];
-	} else if(regExp[index.rIndex].size() <= index.rTIndex){
-		std::cerr << "Index out of bounce (second), will return last." << std::endl;
-		return regExp[index.rIndex][regExp[index.rIndex].size()-1];
-	}
-	index.rTIndex++;
-	return regExp[index.rIndex][index.rTIndex];*/
 	if(regExp.size() <= index.outVIndex){
 		std::cout << "regex size: " << regExp.size() << " outVIndex: "
 				  << index.outVIndex << std::endl;
@@ -63,8 +54,6 @@ std::string regex::getId(){
 				  << " inVIndex: " << index.inVIndex << std::endl;
 		std::cerr << "Index out of bounce [Inner], will return Error" << std::endl;
 	}
-	std::cout << "regex value at pos: " << regExp[index.outVIndex][index.inVIndex]
-			  << std::endl;
 	return regExp[index.outVIndex][index.inVIndex];
 }
 
