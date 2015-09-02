@@ -1,104 +1,45 @@
 #include "textContainer.h"
 
-textContainer::textContainer():text(){}
+textContainer::textContainer():text(""),currentPos(text.begin()),stopPos(text.end()){}
 
-textContainer::textContainer(std::string inText):text(){
-	addText(inText);
-}
+textContainer::textContainer(std::string inText):text(inText),currentPos(text.begin()),stopPos(text.end()){}
 
 textContainer::~textContainer(){}
 
 void textContainer::addText(std::string inText){
-	empStack();
-	fillStack(inText);
+	text = inText;
 }
 
 void textContainer::addMoreText(std::string inText){
-	std::string fromStack="";
-	while(!text.empty()){
-		fromStack += text.top();
-		text.pop();
-	}
-	std::reverse(fromStack.begin(), fromStack.end());
-	fromStack += inText;
-	addText(fromStack);
+	text += inText;
 }
 
 void textContainer::addFileText(std::string file){
-	std::ifstream in(file.c_str());
-	if(in.is_open()){
-		std::string fromFile="";
-		std::string tmp;
-		while(!in.eof()){
-			tmp="";
-			getline(in, tmp);
-			fromFile += tmp;
-		}
-		addText(fromFile);
-	} else{
-		std::cerr << "Couldn't open file " << file << "." << std::endl;
-	}
-	in.close();
+	addFromFile(file, 1);
 }
 
 void textContainer::addMoreFileText(std::string file){
+	addFromFile(file, 0);
+}
+
+void textContainer::addFromFile(std::string file, bool removeOLd){
 	std::ifstream in(file.c_str());
-	if(in.is_open()){
-		std::string fromFile="";
-		std::string tmp;
-		while(!in.eof()){
-			tmp="";
-			getline(in, tmp);
-			fromFile += tmp;
-		}
-		addMoreText(fromFile);
-	} else{
-		std::cerr << "Couldn't open file " << file << "." << std::endl;
+
+	if(!in.is_open()){
+		std::cerr << "Couldn't open the file: " << file
+			  << " please check the file name." << std::endl;
+	}
+
+	std::string tmpStr="";
+
+	if(removeOLd){
+		getline(in, tmpStr);
+		addText(tmpStr);
+	}
+	
+	while(!in.eof()){
+		getline(in, tmpStr);
+		addMoreText(tmpStr);
 	}
 	in.close();
-}
-
-bool textContainer::isInText(char c){
-	while(!text.empty()){
-		if(text.top() == c){
-			text.pop();
-			return 1;
-		}
-		text.pop();
-	}
-	return 0;
-}
-
-bool textContainer::isTopEquel(char c){
-	if(text.top() == c){
-		text.pop();
-		return 1;
-	}
-	return 0;
-}
-
-bool textContainer::isTopEqPop(char c){
-	if(text.top() == c){
-		text.pop();
-		return 1;
-	}
-	text.pop();
-	return 0;
-}
-
-bool textContainer::isEmpty(){
-	return text.empty();
-}
-
-void textContainer::fillStack(std::string inText){
-	std::reverse(inText.begin(), inText.end());
-	for(iter it = inText.begin(); it != inText.end(); it++){
-		text.push((*it));
-	}
-}
-
-void textContainer::empStack(){
-	while(!text.empty()){
-		text.pop();
-	}
 }

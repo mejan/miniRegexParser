@@ -9,7 +9,7 @@ more deitials will come at a later time.
 How to use
 ==========
 
-id* is to find minmum id and possible infinty id.
+id* is to find minmum id and possible infinty id in a row.
 
 id is either a number or letter that most be fond.
 

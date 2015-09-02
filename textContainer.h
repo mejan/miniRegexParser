@@ -2,9 +2,7 @@
 #define _TEXT_CONTAINER_H_
 
 #include <string>
-#include <stack>
 #include <fstream>
-#include <algorithm>
 #include <iostream>
 
 typedef std::string::iterator iter;
@@ -52,41 +50,23 @@ class textContainer{
 		*And it adds it in the end of the old text.
 		*/
 		void addMoreFileText(std::string file);
-		/*
-		*Search in text and pop til it finds c or
-		*the container gets empty.
-		*/
-		bool isInText(char c);
-		/*
-		*Check if the top is equle to c.
-		*If it's equel it will pop top.
-		*In the case of miniRegex project,
-		*it will be used for repition.		
-		*/
-		bool isTopEquel(char c);
-		/*
-		*Check if the top is equal to c
-		*and remove top.
-		*/
-		bool isTopEqPop(char c);
-		/*
-		*check if container is empty
-		*/
-		bool isEmpty();
+		
 	private:
 		/*
 		*Function members
 		*/
-		// Adds text to the stack.
-		void fillStack(std::string inText);
-		// empty the stack
-		void empStack();
+		// text form file to string 'text'.
+		void addFromFile(std::string file, bool removeOLd);
 
 		/*
 		*Data members
 		*/
 		// Text container.
-		std::stack<char> text;
+		std::string text;
+		// iterators to keep track of the current possition.
+		iter currentPos;
+		// iterator for where to stop find.
+		iter stopPos;
 };
 
 #endif /*_TEXT_CONTAINER_H_*/

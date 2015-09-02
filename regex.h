@@ -38,7 +38,7 @@ class regex{
 		/*
 		*Returns next letter from expression
 		*/
-		char getExp();
+		std::string getId();
 		/*
 		*get left and right.
 		*/
@@ -51,12 +51,11 @@ class regex{
 		// Data member for tokens.
 		std::vector<token> tokenList;
 		// Data member for original expr (No tokens).
-		std::vector<std::string> regExp;
+		std::vector<std::vector<std::string> > regExp;
 		// Index for tokenList, regExp.
 		struct{
 			size_t tIndex;
-			size_t rIndex;
-			size_t rTIndex;
+			size_t outVIndex;
 		} index;
 };
 
