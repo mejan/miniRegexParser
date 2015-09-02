@@ -15,6 +15,7 @@ regex::~regex(){}
 void regex::setIndex(){
 	index.tIndex=0;
 	index.outVIndex=0;
+	index.inVIndex=-1;
 	/*index.rIndex=0;
 	index.rTIndex=0;*/
 }
@@ -30,10 +31,12 @@ token regex::getToken(){
 
 	if(tmp == token::LPAR){
 		index.outVIndex++;
-		// index.rTIndex=0;
+		index.inVIndex=-1;
 	} else if(tmp == token::RPAR){
 		index.outVIndex--;
-		// index.rTIndex=0;
+		index.inVIndex=-1;
+	} else if(tmp == token::ID){
+		index.inVIndex++;
 	}
 
 	return tmp;
@@ -49,14 +52,27 @@ std::string regex::getId(){
 	}
 	index.rTIndex++;
 	return regExp[index.rIndex][index.rTIndex];*/
-	return "";
+	if(regExp.size() <= index.outVIndex){
+		std::cout << "regex size: " << regExp.size() << " outVIndex: "
+				  << index.outVIndex << std::endl;
+		std::cerr << "Index out of bounce [outter], will return 'Error'" 
+				  << std::endl;
+		return "Error";
+	} else if(regExp[index.outVIndex].size() <= index.inVIndex){
+		std::cout << "regex[x] size: " << regExp[index.outVIndex].size()
+				  << " inVIndex: " << index.inVIndex << std::endl;
+		std::cerr << "Index out of bounce [Inner], will return Error" << std::endl;
+	}
+	std::cout << "regex value at pos: " << regExp[index.outVIndex][index.inVIndex]
+			  << std::endl;
+	return regExp[index.outVIndex][index.inVIndex];
 }
 
 
-std::vector<std::string> regex::orSplit(){
+/*std::vector<std::string> regex::orSplit(){
 	
 	std::vector<std::string> forReturn;
-	/*std::string tmpStr="";
+	std::string tmpStr="";
 	
 	for(iter sit = regExp[index.rIndex].begin(); sit != regExp[index.rIndex].end(); sit++){
 		if(!isalnum(*sit)){
@@ -69,10 +85,10 @@ std::vector<std::string> regex::orSplit(){
 
 	if(tmpStr.size() > 0){
 		forReturn.push_back(tmpStr);
-	}*/
+	}
 
 	return forReturn;
-}
+}*/
 
 void regex::makeTokens(std::string ex){
 	std::vector<std::string> v;
@@ -86,7 +102,7 @@ void regex::makeTokens(std::string ex){
 				iter it2 = it+1;
 				
 				while(isalnum(*it2) && it2 != ex.end()){
-					s+= (*it);
+					s += (*it2);
 					it2++;
 				}
 				it = it2-1;
@@ -104,9 +120,7 @@ void regex::makeTokens(std::string ex){
 					break;
 
 				case token::LPAR:
-					// 'If' cuz '(' can be the first sign or after a other '(', 
-					// then there is no meaning to push_back v.
-					if(v.size() > 0) regExp.push_back(v);
+					regExp.push_back(v);
 					tokenList.push_back(token::LPAR);
 					v.clear();
 					index.outVIndex++;
@@ -129,8 +143,21 @@ void regex::makeTokens(std::string ex){
 	}
 
 	if(v.size() > 0){
-		regExp.push_back(v);
+		std::vector<std::string> tmp = regExp[0];
+		for(viter vit = v.begin(); vit != v.end(); vit++){
+			tmp.push_back(*vit);
+		}
+		regExp[0] = tmp;
 		v.clear();
+	}
+
+	// For debugging purposes.
+	std::cout << "regex size: " << regExp.size() << "\n";
+	for(std::vector<std::vector<std::string> >::iterator it = regExp.begin(); it != regExp.end(); it++){
+		std::cout << "size: " << (*it).size() << std::endl;
+		for(viter vit = (*it).begin(); vit != (*it).end(); vit++){
+			std::cout << "String: " << (*vit) << std::endl;
+		}
 	}
 
 	if(!ex.size() == 0){
@@ -147,7 +174,6 @@ void regex::makeTokens(std::string ex){
 				  << std::endl;
 		exit(0);
 	}
-	std::cout << "regex size: " << regExp.size() << "\n";
 }
 
 token regex::lookUp(char toCheck){

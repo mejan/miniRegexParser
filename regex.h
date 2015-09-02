@@ -36,13 +36,15 @@ class regex{
 		*/
 		token getToken();
 		/*
-		*Returns next letter from expression
+		*Returns next letter from expression,
+		*for it to work proper use getToken before
+		*getID.
 		*/
 		std::string getId();
 		/*
-		*get left and right.
+		*get left and right. Might remove soon
 		*/
-		std::vector<std::string> orSplit();
+		// std::vector<std::string> orSplit();
 	private:
 		// Create tokens from string expression.
 		void makeTokens(std::string ex);
@@ -56,6 +58,7 @@ class regex{
 		struct{
 			size_t tIndex;
 			size_t outVIndex;
+			size_t inVIndex;
 		} index;
 };
 
