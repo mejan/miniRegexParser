@@ -6,7 +6,7 @@ parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),sta
 	// test code for the regex.
 	std::string tmp ="";
 	std::cout << std::endl << std::endl << "parser Print: " << std::endl;
-	for(int i = 0; i < 14; i++){
+	for(int i = 0; i < 16; i++){
 		switch(expression.getToken()){
 			case token::ID:
 				tmp = "ID";
@@ -79,6 +79,22 @@ void parser::addTextFile(std::string filename){
 		addText(tmpStr);
 	}
 	in.close();
+
+	if(match(1)){
+		std::cout << "first true" << std::endl;
+		expression.getToken();
+	}
+	if(match(1)){
+		std::cout << "second true" << std::endl;
+	}
+	if(match(0)){
+		std::cout << "threed true" << std::endl;
+	}
+	for(viter vit = ans.begin(); vit != ans.end(); vit++){
+		for(iter it = (*vit).begin(); it != (*vit).end(); it++){
+			std::cout << (*it) << std::endl;
+		}
+	}
 }
 
 void parser::emptyText(){
@@ -109,7 +125,7 @@ bool parser::match(bool conOrNot){
 
 	if(conOrNot){ //Check if the it's a concat.
 
-		if(ans.empty()){ // if ans.size() is 0, then we need to search the whole text
+		if(ans.empty()){ // if ans.empty(), then we need to search the whole text.
 			size_t tmpPos = text.find(tmpStr);
 
 			if(tmpPos != std::string::npos){
@@ -117,27 +133,37 @@ bool parser::match(bool conOrNot){
 				ans.push_back(tmpStr2);
 				// Change start pos for next search.
 				startPos = tmpPos+tmpStr.size();
-				std::cout << "klar" << std::endl;
+
+				return 1;
 
 			}
 
 		} else{ //else it has to be the next char + tmpStr size.
-			std::cout << "kommer vi in?" << std::endl;
 			std::string tmpStr2 = text.substr(startPos, tmpStr.size());
-			std::cout << "substr: " << tmpStr2 
-					  << " sökt: "<< tmpStr << std::endl;
+
 			if(tmpStr2 == tmpStr){
 				ans.push_back(tmpStr);
 				startPos = startPos+tmpStr.size();
-				for(size_t testSkit = startPos; testSkit<text.size(); testSkit++){
-					std::cout << "$: " << text[testSkit] <<std::endl;
-				}
+
+				return 1;
 			}
 		}
 
 	} else{ // has to be repeat.
 
-	}
-	return 0;
+		std::string tmp = "";
+		while(ans[ans.size()-1][ans[ans.size()-1].size()-1] == text[startPos]){
+			
+			if(!(startPos < text.size())){
+				break;
+			}
+			tmp += ans[ans.size()-1][ans[ans.size()-1].size()-1];
+			startPos = startPos+1;
+		}
+		ans.push_back(tmp);
 
+		return 1;
+	}
+
+	return 0;
 }
