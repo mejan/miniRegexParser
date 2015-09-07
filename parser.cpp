@@ -4,7 +4,7 @@ parser::parser():text(""),expression(),ans(),ansIndex(0),startPos(0){}
 
 parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(0){
 	// test code for the regex.
-	std::string tmp ="";
+	/*std::string tmp ="";
 	std::cout << std::endl << std::endl << "parser Print: " << std::endl;
 	for(int i = 0; i < 16; i++){
 		switch(expression.getToken()){
@@ -32,7 +32,7 @@ parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),sta
 			std::cout << " And the ID " << expression.getId();
 		}
 		std::cout << std::endl;
-	} //End of test code.
+	} //End of test code.*/
 }
 
 parser::~parser(){}
@@ -80,7 +80,7 @@ void parser::addTextFile(std::string filename){
 	}
 	in.close();
 
-	if(match(1)){
+	/*if(match(1)){ //test code
 		std::cout << "first true" << std::endl;
 		expression.getToken();
 	}
@@ -94,7 +94,7 @@ void parser::addTextFile(std::string filename){
 		for(iter it = (*vit).begin(); it != (*vit).end(); it++){
 			std::cout << (*it) << std::endl;
 		}
-	}
+	}//End of test code. */
 }
 
 void parser::emptyText(){
@@ -112,11 +112,14 @@ bool parser::parOperation(token tmpT){
 }
 
 bool parser::conOperation(){
-	// id
+	if(match(1)){
+		return 1;
+	}
 	return 0;
 }
 
 bool parser::repOperation(){
+	match(0);
 	return 1; // will always return true.
 }
 
