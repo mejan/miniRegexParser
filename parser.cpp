@@ -1,39 +1,8 @@
 #include "parser.h"
 
-parser::parser():text(""),expression(),ans(),ansIndex(0),startPos(0){}
+parser::parser():text(""),expression(),ans(),startPos(0){}
 
-parser::parser(std::string expr):text(""),expression(expr),ans(),ansIndex(0),startPos(0){
-	// test code for the regex.
-	/*std::string tmp ="";
-	std::cout << std::endl << std::endl << "parser Print: " << std::endl;
-	for(int i = 0; i < 16; i++){
-		switch(expression.getToken()){
-			case token::ID:
-				tmp = "ID";
-				break;
-			case token::REP:
-				tmp = "REP";
-				break;
-			case token::OR:
-				tmp = "OR";
-				break;
-			case token::LPAR:
-				tmp ="LPAR";
-				break;
-			case token::RPAR:
-				tmp ="RPAR";
-				break;
-			case token::END:
-				tmp = "END";
-				break;
-		}
-		std::cout << "The Token: " << tmp;
-		if(tmp == "ID"){
-			std::cout << " And the ID " << expression.getId();
-		}
-		std::cout << std::endl;
-	} //End of test code.*/
-}
+parser::parser(std::string expr):text(""),expression(expr),ans(),startPos(0){}
 
 parser::~parser(){}
 
@@ -42,20 +11,25 @@ void parser::expr(){
 	switch(tmp){
 		case token::ID:
 			conOperation();
+			expr();
 			break;
 		case token::REP:
 			repOperation();
+			expr();
 			break;
 		case token::OR:
 			orOperation();
+			expr();
 			break;
 		case token::LPAR:
 			parOperation(tmp);
+			expr();
 			break;
 		case token::RPAR:
+			expr();
 			break;
 		case token::END:
-			break;
+			return;
 	}
 }
 
@@ -79,22 +53,13 @@ void parser::addTextFile(std::string filename){
 		addText(tmpStr);
 	}
 	in.close();
-
-	/*if(match(1)){ //test code
-		std::cout << "first true" << std::endl;
-		expression.getToken();
-	}
-	if(match(1)){
-		std::cout << "second true" << std::endl;
-	}
-	if(match(0)){
-		std::cout << "threed true" << std::endl;
-	}
+	
+	// test code
+	expr();
+	std::cout << "From ans vector, size of ans:" << ans.size() << std::endl;
 	for(viter vit = ans.begin(); vit != ans.end(); vit++){
-		for(iter it = (*vit).begin(); it != (*vit).end(); it++){
-			std::cout << (*it) << std::endl;
-		}
-	}//End of test code. */
+		std::cout << *vit << std::endl;
+	}
 }
 
 void parser::emptyText(){
@@ -102,71 +67,89 @@ void parser::emptyText(){
 }
 
 bool parser::orOperation(){
-	// leftExpr OR rightExpr
-	return 0;
+	std::string tmpStr = expression.getPrivId();
+	
+	if(ans.size() > 0){
+		if(ans[ans.size()-1] == tmpStr){
+			return true;
+		}
+	}
+	token tmp = expression.getToken();
+	if(tmp == token::ID){
+		return conOperation();
+	} else{
+		std::cerr << "Syntax error, or sign that missing id like: 'id+id'" << std::endl;
+		exit(0);
+	}
 }
 
 bool parser::parOperation(token tmpT){
-	// (EXPR)
-	return 0;
+	
+	return false;
 }
 
 bool parser::conOperation(){
-	if(match(1)){
-		return 1;
-	}
-	return 0;
+	return match();
 }
 
 bool parser::repOperation(){
-	match(0);
-	return 1; // will always return true.
+	repMatch();
+	return true; // will always return true.
 }
 
-bool parser::match(bool conOrNot){
+bool parser::match(){
+	if(ans.empty()){ // if ans.empty(), then we need to search the whole text.
+		return fistMatch();
+	} else{ //else it has to be the next char + tmpStr size.
+		return nxtMatch();
+	}
+}
+
+bool parser::fistMatch(){
 	std::string tmpStr = expression.getId();
+	std::cout << "id: " << tmpStr << std::endl;
 
-	if(conOrNot){ //Check if the it's a concat.
+	size_t tmpPos = text.find(tmpStr);
 
-		if(ans.empty()){ // if ans.empty(), then we need to search the whole text.
-			size_t tmpPos = text.find(tmpStr);
+	if(tmpPos != std::string::npos){
+		std::string tmpStr2 = text.substr(tmpPos,tmpStr.size());
+		ans.push_back(tmpStr2);
+		// Change start pos for next search.
+		startPos = tmpPos+tmpStr.size();
 
-			if(tmpPos != std::string::npos){
-				std::string tmpStr2 = text.substr(tmpPos,tmpStr.size());
-				ans.push_back(tmpStr2);
-				// Change start pos for next search.
-				startPos = tmpPos+tmpStr.size();
+		return true;
 
-				return 1;
+	}
+	return false;
+}
 
-			}
+bool parser::nxtMatch(){
+	std::string tmpStr = expression.getId();
+	std::cout << "id: " << tmpStr << std::endl;
 
-		} else{ //else it has to be the next char + tmpStr size.
-			std::string tmpStr2 = text.substr(startPos, tmpStr.size());
+	std::string tmpStr2 = text.substr(startPos, tmpStr.size());
 
-			if(tmpStr2 == tmpStr){
-				ans.push_back(tmpStr);
-				startPos = startPos+tmpStr.size();
+	if(tmpStr2 == tmpStr){
+		ans.push_back(tmpStr);
+		startPos = startPos+tmpStr.size();
 
-				return 1;
-			}
+		return true;
+	}
+	return false;
+}
+
+void parser::repMatch(){
+	std::string tmpStr = "";
+	while(ans[ans.size()-1][ans[ans.size()-1].size()-1] == text[startPos]){
+		
+		if(!(startPos < text.size())){
+			break;
 		}
-
-	} else{ // has to be repeat.
-
-		std::string tmp = "";
-		while(ans[ans.size()-1][ans[ans.size()-1].size()-1] == text[startPos]){
-			
-			if(!(startPos < text.size())){
-				break;
-			}
-			tmp += ans[ans.size()-1][ans[ans.size()-1].size()-1];
-			startPos = startPos+1;
-		}
-		ans.push_back(tmp);
-
-		return 1;
+		tmpStr += ans[ans.size()-1][ans[ans.size()-1].size()-1];
+		startPos = startPos+1;
 	}
 
-	return 0;
+	if(tmpStr.size() != 0){
+		ans.push_back(tmpStr);
+	}
 }

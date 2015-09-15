@@ -42,9 +42,9 @@ class regex{
 		*/
 		std::string getId();
 		/*
-		*get left and right. Might remove soon
+		*getPrivId gets the privouse id.
 		*/
-		// std::vector<std::string> orSplit();
+		std::string getPrivId();
 	private:
 		// Create tokens from string expression.
 		void makeTokens(std::string ex);

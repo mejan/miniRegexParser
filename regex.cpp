@@ -42,40 +42,30 @@ token regex::getToken(){
 
 std::string regex::getId(){
 	if(regExp.size() <= index.outVIndex){
-		std::cout << "regex size: " << regExp.size() << " outVIndex: "
-				  << index.outVIndex << std::endl;
-		std::cerr << "Index out of bounce [outter], will return 'Error'" 
+		std::cerr << "Index out of bounce [outer], will return 'Error'" 
 				  << std::endl;
 		return "Error";
 	} else if(regExp[index.outVIndex].size() <= index.inVIndex){
-		std::cout << "regex[x] size: " << regExp[index.outVIndex].size()
-				  << " inVIndex: " << index.inVIndex << std::endl;
-		std::cerr << "Index out of bounce [Inner], will return Error" << std::endl;
+		std::cerr << "Index out of bounce [inner], will return Error" 
+				  << std::endl;
+		return "Error";
 	}
 	return regExp[index.outVIndex][index.inVIndex];
 }
 
 
-/*std::vector<std::string> regex::orSplit(){
-	
-	std::vector<std::string> forReturn;
-	std::string tmpStr="";
-	
-	for(iter sit = regExp[index.rIndex].begin(); sit != regExp[index.rIndex].end(); sit++){
-		if(!isalnum(*sit)){
-			forReturn.push_back(tmpStr);
-			tmpStr = "";
-		} else{
-			tmpStr += (*sit);
-		}
+std::string regex::getPrivId(){
+	if(regExp.size() <= index.outVIndex){
+		std::cout << "Index out of bounce [outer], will return 'Error'"
+				  << std::endl;
+		return "Error";
+	} else if(regExp[index.outVIndex].size() <= (index.inVIndex-1)){
+		std::cout << "Index out of bounce [inner], will return Error"
+				  << std::endl;
+		return "Error";
 	}
-
-	if(tmpStr.size() > 0){
-		forReturn.push_back(tmpStr);
-	}
-
-	return forReturn;
-}*/
+	return regExp[index.outVIndex][index.inVIndex-1];
+}
 
 void regex::makeTokens(std::string ex){
 	std::vector<std::string> v;
@@ -129,23 +119,21 @@ void regex::makeTokens(std::string ex){
 		}
 	}
 
+	// if last thing in the expression
+	// then it needs to get into regExp
+	// and that is what this code does.
 	if(v.size() > 0){
-		std::vector<std::string> tmp = regExp[0];
+		std::vector<std::string> tmp;
+		if(regExp.size() > 0){
+			tmp = regExp[0];
+			regExp[0].clear();
+		}
 		for(viter vit = v.begin(); vit != v.end(); vit++){
 			tmp.push_back(*vit);
-		}
-		regExp[0] = tmp;
+		} 
+		regExp.push_back(tmp);
 		v.clear();
 	}
-
-	// For debugging purposes.
-	std::cout << "regex size: " << regExp.size() << "\n";
-	for(std::vector<std::vector<std::string> >::iterator it = regExp.begin(); it != regExp.end(); it++){
-		std::cout << "size: " << (*it).size() << std::endl;
-		for(viter vit = (*it).begin(); vit != (*it).end(); vit++){
-			std::cout << "String: " << (*vit) << std::endl;
-		}
-	} // End debugging code.
 
 	if(!ex.size() == 0){
 		tokenList.push_back(token::END);

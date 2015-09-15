@@ -2,7 +2,6 @@
 #define _PARSER_H_
 
 #include "regex.h"
-// #include "textContainer.h"
 
 #include <algorithm>
 #include <string>
@@ -60,7 +59,14 @@ class parser{
 		// repeat function.
 		bool repOperation();
 		// Check for match in textContainer.
-		bool match(bool conOrNot);
+		bool match();
+		// firstMatch is for the first time we make a match.
+		bool fistMatch();
+		// nxtMatch is the matching function for matching
+		// afer the fisrt match been done.
+		bool nxtMatch();
+		// repMatch is the matching function for repeat.
+		void repMatch();
 
 		/*
 		*Datamembers
@@ -71,8 +77,6 @@ class parser{
 		regex expression;
 		// keeps track of what is found
 		std::vector<std::string> ans;
-		// Keep index for the ans vector.
-		size_t ansIndex;
 		// Where to start search.
 		// Iter is a typedef in regex.h
 		size_t startPos;
