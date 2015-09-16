@@ -4,31 +4,19 @@ course in programming language theory.
 
 And as the title says it's a small version of a regex parser.
 
-more deitials will come at a later time.
-
-How to use
-==========
-
-id* is to find minmum id and possible infinty id in a row.
-
-id is either a number or letter that most be fond.
-
-Expr1+Expr2  means to find either Expr1 or Expr2 (left most).
-
-(expr) is used to search as it's own expresion.
-
-
 BNF
 ===
 Expr => Concat | Paren | Repeat | Or
 
-Or => Expr + Expr
+Or => Concat + Concat
 
 Parentes => (Expr)
 
-Concat => Id | Id Concat | Expr Concat
+Concat => Id | Id-Concat
 
-Repeat => Id* | Parentes*  -- might change soon.
+Repeat => Id* | Parentes*
+
+Id is a charactor/number
 
 No tributes accepted
 ====================

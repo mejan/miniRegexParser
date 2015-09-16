@@ -5,10 +5,10 @@ int main(){
 	std::cout << "Please enter your regular expression." << std::endl;
 	std::cin >> commande;
 
-	parser test(commande);
-	test.addTextFile("tmp.txt");
+	parser preformRegexParsing(commande);
+	preformRegexParsing.addTextFile("tmp.txt");
 
-	test.parseExp();
+	preformRegexParsing.parseExp();
 
 	return 0;
 }
