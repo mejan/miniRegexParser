@@ -3,7 +3,6 @@
 
 #include "regex.h"
 
-#include <algorithm>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -43,13 +42,20 @@ class parser{
 		*Delete the current text to search in.
 		*/
 		void emptyText();
+		/*
+		*parseExp() member function that will parse
+		*the expression. If it finds the expression
+		*it was looking  then return the answer, Else it
+		*will tell the user No match was found.
+		*/
+		void parseExp();
 
 	private:
 		/*
 		*Private member functions in parser
 		*/
 		// Expresion bas function for the parsing.
-		void expr();
+		bool expr();
 		// How we work with the or sign +.
 		bool orOperation();
 		// How we work with the ()'s.
@@ -67,6 +73,8 @@ class parser{
 		bool nxtMatch();
 		// repMatch is the matching function for repeat.
 		void repMatch();
+		// Prints the result.
+		void ansPrint();
 
 		/*
 		*Datamembers

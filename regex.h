@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <cctype>
 
 // The tokens:
 enum token {ID, REP, OR, LPAR, RPAR, SYNER, END};
@@ -15,6 +14,9 @@ typedef std::vector<std::string>::iterator viter;
 
 class regex{
 	public:
+		/*
+		*Constructors and destructor.
+		*/
 		/*
 		*Defualt Constructor.
 		*/
@@ -27,6 +29,11 @@ class regex{
 		*Destructor.
 		*/
 		~regex();
+
+
+		/*
+		*Member functions in regex.
+		*/
 		/*
 		*Set and reset index's to 0.
 		*/
@@ -46,10 +53,17 @@ class regex{
 		*/
 		std::string getPrivId();
 	private:
+		/*
+		*member functions
+		*/
 		// Create tokens from string expression.
 		void makeTokens(std::string ex);
 		// Check what token it is.
 		token lookUp(char toCheck);
+
+		/*
+		*Data members
+		*/
 		// Data member for tokens.
 		std::vector<token> tokenList;
 		// Data member for original expr (No tokens).

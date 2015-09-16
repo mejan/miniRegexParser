@@ -6,4 +6,4 @@ Parentes => (Expr)
 
 Concat => Id | Id-Concat
 
-Repeat => Id*
+Repeat => Id* | Paren*

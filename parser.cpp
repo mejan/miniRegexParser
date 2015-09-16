@@ -6,33 +6,6 @@ parser::parser(std::string expr):text(""),expression(expr),ans(),startPos(0){}
 
 parser::~parser(){}
 
-void parser::expr(){
-	token tmp = expression.getToken();
-	switch(tmp){
-		case token::ID:
-			conOperation();
-			expr();
-			break;
-		case token::REP:
-			repOperation();
-			expr();
-			break;
-		case token::OR:
-			orOperation();
-			expr();
-			break;
-		case token::LPAR:
-			parOperation(tmp);
-			expr();
-			break;
-		case token::RPAR:
-			expr();
-			break;
-		case token::END:
-			return;
-	}
-}
-
 void parser::addText(std::string inText){
 	text += inText;
 	startPos = 0;
@@ -53,39 +26,95 @@ void parser::addTextFile(std::string filename){
 		addText(tmpStr);
 	}
 	in.close();
-	
-	// test code
-	expr();
-	std::cout << "From ans vector, size of ans:" << ans.size() << std::endl;
-	for(viter vit = ans.begin(); vit != ans.end(); vit++){
-		std::cout << *vit << std::endl;
-	}
 }
 
 void parser::emptyText(){
 	text = "";
 }
 
+void parser::parseExp(){
+	if(!expr()){
+		std::cout << "Match not found." << std::endl;
+		return;
+	} else{
+		std::cout << "The match that was found:" << std::endl;
+		ansPrint();
+		break;
+	}
+}
+
+bool parser::expr(){
+	token tmp = expression.getToken();
+	switch(tmp){
+		case token::ID:
+			if(!conOperation())
+				if(expression.getToken() == token::OR){
+					if(!orOperation()){
+						return false;
+					}
+				} else{
+					return false;
+				}
+			expr();
+			break;
+		case token::REP:
+			repOperation();
+			expr();
+			break;
+		case token::OR:
+			if(!orOperation()){
+				return false;
+			}
+			expr();
+			break;
+		case token::LPAR:
+			if(!parOperation(tmp)){
+				return false;
+			}
+			expr();
+			break;
+		case token::RPAR:
+			expr();
+			break;
+		case token::END:
+			return true;
+	}
+}
+
 bool parser::orOperation(){
+	token tmp = expression.getToken();
+
+	if(tmp != token::ID){
+		std::cerr << "Syntax error" << std::endl;
+		exit(0);
+	}
 	std::string tmpStr = expression.getPrivId();
-	
+
+	if(tmpStr == "Error"){
+		std::cout << "Syntax error" << std::endl;
+	}
+
 	if(ans.size() > 0){
+
 		if(ans[ans.size()-1] == tmpStr){
 			return true;
 		}
 	}
-	token tmp = expression.getToken();
-	if(tmp == token::ID){
-		return conOperation();
-	} else{
-		std::cerr << "Syntax error, or sign that missing id like: 'id+id'" << std::endl;
-		exit(0);
-	}
+	
+	return conOperation();
 }
 
 bool parser::parOperation(token tmpT){
-	
-	return false;
+	bool tmp = false;
+	if(tmpT == token::LPAR){
+		tmp = expr();
+	} else if(tmpT == token::RPAR){
+		std::cout << "parOperation: " << tmp << std::endl;
+		return tmp;
+	} else{
+		std::cerr << "Something gone wrong in the application." << std::endl;
+		return false;
+	}
 }
 
 bool parser::conOperation(){
@@ -107,7 +136,6 @@ bool parser::match(){
 
 bool parser::fistMatch(){
 	std::string tmpStr = expression.getId();
-	std::cout << "id: " << tmpStr << std::endl;
 
 	size_t tmpPos = text.find(tmpStr);
 
@@ -125,7 +153,6 @@ bool parser::fistMatch(){
 
 bool parser::nxtMatch(){
 	std::string tmpStr = expression.getId();
-	std::cout << "id: " << tmpStr << std::endl;
 
 	std::string tmpStr2 = text.substr(startPos, tmpStr.size());
 
@@ -152,4 +179,11 @@ void parser::repMatch(){
 	if(tmpStr.size() != 0){
 		ans.push_back(tmpStr);
 	}
+}
+
+void parser::ansPrint(){
+	for(viter vit = ans.begin(); vit != ans.end(); vit++){
+		std::cout << *vit;
+	}
+	std::cout << std::endl;
 }
