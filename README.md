@@ -21,5 +21,5 @@ Id is a charactor/number
 No tributes accepted
 ====================
 
-This is a school assement.
-There for i do not acceept tributes til it's done.
+This is a school assement,
+there for I do not acceept tributes.
