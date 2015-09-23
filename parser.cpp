@@ -183,7 +183,7 @@ bool parser::match(){
 	
 	if(ans.empty()){ // if ans.empty(), then we need to search the whole text.
 		return fistMatch();
-	} else{ //else it has to be the next char + tmpStr size.
+	} else{ //else it has to be directly after.
 		return nxtMatch();
 	}
 }
@@ -211,7 +211,7 @@ bool parser::nxtMatch(){
 
 	if(tmpStr2 == tmpStr){
 		ans.push_back(tmpStr);
-		startPos = startPos+tmpStr.size();
+		startPos += tmpStr.size();
 
 		return true;
 	}
@@ -228,7 +228,7 @@ void parser::repMatch(){
 			break;
 		}
 		tmpStr += ans[ans.size()-1][ans[ans.size()-1].size()-1];
-		startPos = startPos+1;
+		startPos++;
 	}
 
 	if(tmpStr.size() != 0){
