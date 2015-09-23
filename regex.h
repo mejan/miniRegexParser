@@ -78,6 +78,8 @@ class regex{
 			size_t outVIndex;
 			size_t inVIndex;
 		} index;
+		// Keep track of previous inner index
+		size_t prevIn; 
 };
 
 #endif /*_REGEX_H_*/

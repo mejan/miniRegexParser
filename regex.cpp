@@ -16,6 +16,7 @@ void regex::resetIndex(){
 	index.tIndex=0;
 	index.outVIndex=0;
 	index.inVIndex=-1;
+	prevIn = 0;
 }
 
 token regex::getToken(){
@@ -29,10 +30,11 @@ token regex::getToken(){
 
 	if(tmp == token::LPAR){
 		index.outVIndex++;
+		prevIn = index.inVIndex;
 		index.inVIndex=-1;
 	} else if(tmp == token::RPAR){
 		index.outVIndex--;
-		index.inVIndex=-1;
+		index.inVIndex=prevIn;
 	} else if(tmp == token::ID){
 		index.inVIndex++;
 	}

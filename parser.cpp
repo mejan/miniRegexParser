@@ -69,11 +69,11 @@ bool parser::expr(){
 			expr();
 			break;
 		case token::REP:
-			if(prevToken != token::ID){
+			/*if(prevToken != token::ID){
 				std::cerr << "Syntax Error, * most have an concat before like: 'id*'"
 						  << std::endl;
 				exit(0);
-			}
+			}*/
 			repOperation();
 			expr();
 			break;
@@ -134,7 +134,7 @@ bool parser::orOperation(){
 	if(ans.size() > 0){
 		if((prevToken == token::ID)/* || (prevToken == token::REP)*/){
 			if(ans[ans.size()-1] == tmpStr){
-				prevToken = tmpToken;
+				prevToken = token::RPAR;
 				return true;
 			}/* 
 			// Because a if with && or || is left most it will check size
@@ -149,7 +149,7 @@ bool parser::orOperation(){
 		// be an ID other wish it would say Syntax Error and exit the program.
 		else if(prevToken == token::REP){
 			if(ans[ans.size()-2] == tmpStr){
-				prevToken = tmpToken;
+				prevToken = token::RPAR;
 				return true;
 			}
 		} else{
@@ -173,6 +173,14 @@ bool parser::conOperation(){
 }
 
 bool parser::repOperation(){
+	if(prevToken != token::ID){
+		if(prevToken != token::RPAR){
+			std::cerr << "Syntax Error, * most have an concat before like: 'id*'"
+					  << std::endl;
+			exit(0);
+		}
+		return true;
+	}
 	prevToken = token::REP;
 	repMatch();
 	
@@ -208,7 +216,6 @@ bool parser::fistMatch(){
 bool parser::nxtMatch(){
 	std::string tmpStr = expression.getId();
 	std::string tmpStr2 = text.substr(startPos, tmpStr.size());
-
 	if(tmpStr2 == tmpStr){
 		ans.push_back(tmpStr);
 		startPos += tmpStr.size();
