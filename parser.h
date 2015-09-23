@@ -59,7 +59,7 @@ class parser{
 		// How we work with the or sign +.
 		bool orOperation();
 		// How we work with the ()'s.
-		bool parOperation(token tmpT);
+		bool parOperation();
 		// Concat/Union's function.
 		bool conOperation();
 		// repeat function.
@@ -88,6 +88,8 @@ class parser{
 		// Where to start search.
 		// Iter is a typedef in regex.h
 		size_t startPos;
+		// Previous Token
+		token prevToken;
 };
 
 #endif /*_PARSER_H_*/

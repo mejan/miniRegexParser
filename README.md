@@ -6,15 +6,15 @@ And as the title says it's a small version of a regex parser.
 
 BNF
 ===
-Expr => Concat | Paren | Repeat | Or
+Expr => Concat | Brackets | Repeat | Or
 
-Or => Concat + Concat
+Or => Concat + Concat | Repeat + concat
 
-Parentes => (Expr)
+Brackets => (Expr)
 
 Concat => Id | Id-Concat
 
-Repeat => Id* | Parentes*
+Repeat => Concat*
 
 Id is a charactor/number
 

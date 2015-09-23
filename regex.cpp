@@ -2,17 +2,17 @@
 
 
 regex::regex():tokenList(),regExp(){
-	setIndex();
+	resetIndex();
 }
 
 regex::regex(std::string ex):tokenList(),regExp(){
-	setIndex();
+	resetIndex();
 	makeTokens(ex);
 }
 
 regex::~regex(){}
 
-void regex::setIndex(){
+void regex::resetIndex(){
 	index.tIndex=0;
 	index.outVIndex=0;
 	index.inVIndex=-1;
@@ -20,8 +20,8 @@ void regex::setIndex(){
 
 token regex::getToken(){
 	if(tokenList.size() <= index.tIndex){
-		std::cerr << "Index out of bounce, will return END." << std::endl;
-		return token::END;
+		std::cerr << "Index out of bounce, will return SYNER." << std::endl;
+		return token::SYNER;
 	}
 
 	token tmp = tokenList[index.tIndex];
@@ -44,25 +44,26 @@ std::string regex::getId(){
 	if(regExp.size() <= index.outVIndex){
 		std::cerr << "Index out of bounce [outer], will return 'Error'" 
 				  << std::endl;
-		return "Error";
+		return "Error&";
 	} else if(regExp[index.outVIndex].size() <= index.inVIndex){
 		std::cerr << "Index out of bounce [inner], will return Error" 
 				  << std::endl;
-		return "Error";
+
+		return "Error&";
 	}
 	return regExp[index.outVIndex][index.inVIndex];
 }
 
 
-std::string regex::getPrivId(){
+std::string regex::getPrevId(){
 	if(regExp.size() <= index.outVIndex){
 		std::cout << "Index out of bounce [outer], will return 'Error'"
 				  << std::endl;
-		return "Error";
+		return "Error&";
 	} else if(regExp[index.outVIndex].size() <= (index.inVIndex-1)){
 		std::cout << "Index out of bounce [inner], will return Error"
 				  << std::endl;
-		return "Error";
+		return "Error&";
 	}
 	return regExp[index.outVIndex][index.inVIndex-1];
 }
@@ -88,8 +89,8 @@ void regex::makeTokens(std::string ex){
 			}
 
 		} else{
-			token tmp = lookUp(*it);
-			switch(tmp){
+			token tmpToken = lookUp(*it);
+			switch(tmpToken){
 				case token::SYNER:
 					std::cerr << "Syntax Error please check your expression: " 
 							  << (*it) << std::endl;
@@ -104,51 +105,66 @@ void regex::makeTokens(std::string ex){
 					break;
 
 				case token::RPAR:
-					// 'If' cuz ')' can be directly after a other ')',
-					// then there is no meaning to push_back v.
-					if(v.size() > 0) regExp.push_back(v);
+					if(v.size() > 0){
+						regExp.push_back(v);
+					} else{
+						std::cerr << "Syntax Error, brackets without "
+								  << "any concat within them." << std::endl;
+						exit(0);
+					}
 					tokenList.push_back(token::RPAR);
 					v.clear();
 					index.outVIndex--;
 					break;
 
 				default:
-					tokenList.push_back(tmp);
+					tokenList.push_back(tmpToken);
 					break;
 			}
 		}
 	}
 
-	// if last thing in the expression
-	// then it needs to get into regExp
-	// and that is what this code does.
+
+
+	/*
+	If the last read token is an ID
+	then it need's to be put in the regExp
+	vector witch is what we do here.
+	*/
 	if(v.size() > 0){
-		std::vector<std::string> tmp;
+		std::vector<std::string> tmpVec;
 		if(regExp.size() > 0){
-			tmp = regExp[0];
+			tmpVec = regExp[0];
 			regExp[0].clear();
 		}
+		
 		for(viter vit = v.begin(); vit != v.end(); vit++){
-			tmp.push_back(*vit);
-		} 
-		regExp.push_back(tmp);
+			tmpVec.push_back(*vit);
+		}
+
+		if(regExp.size() > 0){
+			regExp[0] = tmpVec;
+		} else{
+			regExp.push_back(tmpVec);
+		}
 		v.clear();
 	}
 
+	/* Some syntax checkes and see if the exprsion has something in it. */
 	if(!ex.size() == 0){
-		tokenList.push_back(token::END);
 
 		if(index.outVIndex > 0){
 			std::cerr << "Syntax Error. You are missing one or more ')'" 
 					  << "\nplease check your expression." << std::endl;
 			exit(0);
 		}
-
 	} else{
-		std::cerr << "No expression to process, program will shutdown." 
+		std::cerr << "No expression to process, the program will shutdown." 
 				  << std::endl;
 		exit(0);
 	}
+
+	tokenList.push_back(token::END);
 }
 
 token regex::lookUp(char toCheck){
@@ -163,5 +179,43 @@ token regex::lookUp(char toCheck){
 			return token::OR;
 		default:
 			return token::SYNER;
+	}
+}
+
+void regex::printTokenList(){
+	typedef std::vector<token>::iterator titer;
+	for(titer it = tokenList.begin(); it != tokenList.end(); it++){
+		switch(*it){
+			case token::ID:
+				std::cout << "ID" << std::endl;
+				break;
+			case token::REP:
+				std::cout << "REP" << std::endl;
+				break;
+			case token::OR:
+				std::cout << "OR" << std::endl;
+				break;
+			case token::LPAR:
+				std::cout << "LPAR" << std::endl;
+				break;
+			case token::RPAR:
+				std::cout << "RPAR" << std::endl;
+				break;
+			case token::SYNER:
+				std::cout << "SYNER" << std::endl;
+				break;
+			case token::END:
+				std::cout << "END" << std::endl;
+				break;
+		}
+	}
+}
+
+void regex::printRegExp(){
+	std::cout << "Printing regExp" << std::endl;
+	for(size_t i = 0; i < regExp.size(); i++){
+		for(viter vit = regExp[i].begin(); vit != regExp[i].end(); vit++){
+			std::cout << (*vit) << " Depht in vector: " << i << std::endl;
+		}
 	}
 }

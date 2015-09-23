@@ -37,7 +37,7 @@ class regex{
 		/*
 		*Set and reset index's to 0.
 		*/
-		void setIndex();
+		void resetIndex();
 		/*
 		*Returns next token, and change index for regExp.
 		*/
@@ -49,9 +49,9 @@ class regex{
 		*/
 		std::string getId();
 		/*
-		*getPrivId gets the privouse id.
+		*getPrevId gets the prevouse id.
 		*/
-		std::string getPrivId();
+		std::string getPrevId();
 	private:
 		/*
 		*member functions
@@ -60,6 +60,10 @@ class regex{
 		void makeTokens(std::string ex);
 		// Check what token it is.
 		token lookUp(char toCheck);
+		// Printing tokenList for debugging purposes.
+		void printTokenList();
+		// Printing regExp for debgging purposes.
+		void printRegExp();
 
 		/*
 		*Data members
