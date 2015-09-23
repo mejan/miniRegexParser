@@ -6,4 +6,4 @@ Brackets => (Expr)
 
 Concat => Id | Id-Concat
 
-Repeat => Concat*
+Repeat => Id*

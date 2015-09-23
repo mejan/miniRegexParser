@@ -95,7 +95,6 @@ void regex::makeTokens(std::string ex){
 					std::cerr << "Syntax Error please check your expression: " 
 							  << (*it) << std::endl;
 					exit(0);
-					break;
 
 				case token::LPAR:
 					regExp.push_back(v);

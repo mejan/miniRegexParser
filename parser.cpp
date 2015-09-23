@@ -70,17 +70,17 @@ bool parser::expr(){
 			break;
 		case token::REP:
 			if(prevToken != token::ID){
-				std::cerr << "Syntax Error, * most have an concat before like: 'concat*'"
+				std::cerr << "Syntax Error, * most have an concat before like: 'id*'"
 						  << std::endl;
 				exit(0);
-			}			
+			}
 			repOperation();
 			expr();
 			break;
 		case token::OR:
 			if(!orOperation()){
-				std::cout << "Syntax Error, not a concat before the '+' sign." << std::endl;
-				return false;
+				std::cerr << "Syntax Error, not a concat or repet sign before the '+' sign." << std::endl;
+				exit(0);
 			}
 			expr();
 			break;
@@ -88,7 +88,6 @@ bool parser::expr(){
 			if(!parOperation()){
 				return false;
 			}
-			// expr();
 			break;
 		case token::RPAR:
 			prevToken = token::RPAR;
@@ -128,20 +127,35 @@ bool parser::orOperation(){
 	std::string tmpStr = expression.getPrevId();
 
 	if(tmpStr == "Error&"){
-		std::cout << "Syntax Error, with or operation." << std::endl;
+		std::cerr << "Syntax Error, with or operation." << std::endl;
+		exit(0);
 	}
 
 	if(ans.size() > 0){
-		if(prevToken == token::ID){
+		if((prevToken == token::ID)/* || (prevToken == token::REP)*/){
 			if(ans[ans.size()-1] == tmpStr){
 				prevToken = tmpToken;
 				return true;
-			}
-		}else if(prevToken == token::REP){
+			}/* 
+			// Because a if with && or || is left most it will check size
+			// first and there by won't check the vektor index til we know
+			// that the size is bigger then 1.
+			else if((ans.size() > 1) && (ans[ans.size()-2] == tmpStr)){
+				prevToken = tmpToken;
+				return true;
+			}*/
+		} 
+		// If previous token is REP that means that the one before that had to
+		// be an ID other wish it would say Syntax Error and exit the program.
+		else if(prevToken == token::REP){
 			if(ans[ans.size()-2] == tmpStr){
 				prevToken = tmpToken;
 				return true;
 			}
+		} else{
+			std::cerr << "Syntax Error, not a concat or repet sign before "
+					  << "the '+' sign." << std::endl;
+			exit(0);
 		}
 	}
 	prevToken = tmpToken;
