@@ -86,9 +86,9 @@ void regex::makeTokens(std::string ex){
 					it2++;
 				}
 				it = it2-1;
-				tokenList.push_back(token::ID);
-				v.push_back(s);
 			}
+			tokenList.push_back(token::ID);
+			v.push_back(s);
 
 		} else{
 			token tmpToken = lookUp(*it);
@@ -142,13 +142,13 @@ void regex::makeTokens(std::string ex){
 		for(viter vit = v.begin(); vit != v.end(); vit++){
 			tmpVec.push_back(*vit);
 		}
+		v.clear();
 
 		if(regExp.size() > 0){
 			regExp[0] = tmpVec;
 		} else{
 			regExp.push_back(tmpVec);
 		}
-		v.clear();
 	}
 
 	/* Some syntax checkes and see if the exprsion has something in it. */
