@@ -154,7 +154,7 @@ void regex::makeTokens(std::string ex){
 	/* Some syntax checkes and see if the exprsion has something in it. */
 	if(!ex.size() == 0){
 
-		if(index.outVIndex > 0){
+		if(index.outVIndex != 0){
 			std::cerr << "Syntax Error. You are missing one or more ')'" 
 					  << "\nplease check your expression." << std::endl;
 			exit(0);

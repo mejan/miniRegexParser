@@ -73,11 +73,13 @@ class regex{
 		// Data member for original expr (No tokens).
 		std::vector<std::vector<std::string> > regExp;
 		// Index for tokenList, regExp.
-		struct{
+		struct tokenListIndex{
 			size_t tIndex;
 			size_t outVIndex;
 			size_t inVIndex;
-		} index;
+		};
+		// use of struct
+		tokenListIndex index;
 		// Keep track of previous inner index
 		size_t prevIn; 
 };

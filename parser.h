@@ -24,8 +24,7 @@ class parser{
 		/*
 		*Dedtructor takes care of memory resturn (maybe not (not sure yet)).
 		*/
-		~parser();
-
+		~parser() = default;
 
 		/*
 		*Public member functions in parser

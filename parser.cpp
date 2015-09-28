@@ -4,8 +4,6 @@ parser::parser():text(""),expression(),ans(),startPos(0),prevToken(token::SYNER)
 
 parser::parser(std::string expr):text(""),expression(expr),ans(),startPos(0),prevToken(token::SYNER){}
 
-parser::~parser(){}
-
 void parser::addText(std::string inText){
 	text += inText;
 	startPos = 0;
